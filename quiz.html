@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퀴즈 연습 | CFR Study Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Pretendard Variable', 'Pretendard', 'system-ui', 'sans-serif'] },
+      colors: {
+        accent: { DEFAULT: '#3182F6', light: '#EBF3FE', dark: '#1B64DA' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { word-break: keep-all; }
+  html { scroll-behavior: smooth; }
+  .transition-smooth { transition: all 0.3s cubic-bezier(0.16,1,0.3,1); }
+</style>
+</head>
+<body class="bg-[#FAFAFA] font-sans text-zinc-800 antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-accent rounded-xl flex items-center justify-center">
+          <iconify-icon icon="solar:book-bold" class="text-white text-sm"></iconify-icon>
+        </div>
+        <span class="font-bold text-lg tracking-tight">CFR Hub</span>
+      </a>
+      <div class="flex items-center gap-1">
+        <a href="lectures.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">강의</a>
+        <a href="assignments.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">과제</a>
+        <a href="quiz.html" class="px-4 py-2 rounded-xl text-sm font-medium text-accent bg-accent-light transition-smooth">퀴즈</a>
+        <a href="schedule.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">일정</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <section class="pt-28 pb-8 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light text-accent rounded-full text-sm font-semibold mb-4">
+        <iconify-icon icon="solar:pen-new-round-bold" class="text-base"></iconify-icon>
+        Quiz Practice
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight mb-2">퀴즈 연습</h1>
+      <p class="text-zinc-500">각 퀴즈를 선택하고 문제를 풀어보세요. 채점 후 정답과 해설을 확인할 수 있습니다.</p>
+
+      <!-- Notice Banner -->
+      <div class="mt-5 flex items-start gap-3 px-5 py-4 bg-amber-50 border border-amber-200 rounded-2xl">
+        <iconify-icon icon="solar:danger-triangle-bold" class="text-amber-500 text-xl flex-shrink-0 mt-0.5"></iconify-icon>
+        <div>
+          <p class="text-sm font-bold text-amber-800">예상 문제입니다 (실제 퀴즈 아님)</p>
+          <p class="text-xs text-amber-700 mt-1 leading-relaxed">
+            본 퀴즈는 교재 내용을 기반으로 제작된 <strong>예상 연습 문제</strong>이며, 실제 수업 퀴즈(Remotely Proctored)와 동일하지 않습니다.
+            실제 퀴즈는 LMS에서 지정된 날짜에 Proctorio 환경에서 응시해야 합니다. 각 퀴즈 20점, 총 5회입니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Tabs -->
+  <section class="px-6 pb-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" id="tabBar">
+        <button onclick="switchTab(0)" class="tab-btn active flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-smooth" data-tab="0">Quiz #1</button>
+        <button onclick="switchTab(1)" class="tab-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-smooth" data-tab="1">Quiz #2</button>
+        <button onclick="switchTab(2)" class="tab-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-smooth" data-tab="2">Quiz #3</button>
+        <button onclick="switchTab(3)" class="tab-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-smooth" data-tab="3">Quiz #4</button>
+        <button onclick="switchTab(4)" class="tab-btn flex-shrink-0 px-5 py-2.5 rounded-2xl text-sm font-semibold transition-smooth" data-tab="4">Quiz #5</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz Content -->
+  <section class="px-6 pb-20">
+    <div class="max-w-4xl mx-auto" id="quizContainer"></div>
+  </section>
+
+<script>
+const quizData = [
+  {
+    title: "Quiz #1",
+    subtitle: "Ch.5 Merchandising Operations & Ch.7 Internal Control and Cash",
+    due: "3/30 (일)",
+    questions: [
+      {
+        q: "Merchandising company에서 Gross profit(매출총이익)을 올바르게 계산하는 식은?\nWhat is the correct formula for Gross Profit in a merchandising company?",
+        options: ["Revenue - Operating Expenses", "Revenue - Cost of Goods Sold", "Revenue - Total Expenses", "Net Income + COGS"],
+        answer: 1,
+        explanation: "매출총이익(Gross Profit)은 매출액(Revenue)에서 매출원가(COGS)를 차감하여 계산합니다. 영업비용은 별도로 차감됩니다.\nGross Profit = Revenue - COGS. Operating expenses are deducted separately."
+      },
+      {
+        q: "Perpetual inventory system(영속재고기록법)의 특징으로 올바른 것은?\nWhich is a correct characteristic of the perpetual inventory system?",
+        options: ["기말에만 재고를 파악한다 (Inventory is checked only at period-end)", "매 거래마다 재고와 COGS가 업데이트된다 (Inventory and COGS are updated with each transaction)", "실지재고조사가 불필요하다 (Physical inventory count is unnecessary)", "소규모 상점에서만 사용한다 (Used only in small stores)"],
+        answer: 1,
+        explanation: "영속재고기록법은 매 거래 시마다 Inventory와 COGS 계정을 즉시 갱신하여 실시간 재고 현황을 파악할 수 있습니다.\nThe perpetual system updates Inventory and COGS accounts immediately with each transaction, enabling real-time inventory tracking."
+      },
+      {
+        q: "Periodic inventory system에서 Cost of Goods Sold(매출원가)의 계산식은?\nWhat is the formula for COGS under the periodic inventory system?",
+        options: ["Ending Inventory + Purchases - Beginning Inventory", "Beginning Inventory + Purchases - Ending Inventory", "Purchases - Beginning Inventory - Ending Inventory", "Revenue - Gross Profit"],
+        answer: 1,
+        explanation: "기초재고(BI) + 매입액(Purchases) - 기말재고(EI) = 매출원가(COGS)입니다. 기간법에서는 기말에 실사를 통해 COGS를 산출합니다.\nCOGS = Beginning Inventory + Purchases - Ending Inventory. Under the periodic system, COGS is calculated at period-end via physical count."
+      },
+      {
+        q: "당기순이익(Net profit)이 재무상태표에 미치는 영향은?\nWhat is the effect of Net Income on the Balance Sheet?",
+        options: ["총자산이 감소한다 (Total assets decrease)", "이익잉여금(Retained Earnings)이 증가한다 (Retained Earnings increase)", "부채가 증가한다 (Liabilities increase)", "자본금이 변동한다 (Share capital changes)"],
+        answer: 1,
+        explanation: "당기순이익은 이익잉여금(Retained Earnings)을 증가시켜 자본 총계를 늘립니다. 배당으로 유출되지 않는 한 RE에 누적됩니다.\nNet income increases Retained Earnings, thus increasing total equity. It accumulates in RE unless distributed as dividends."
+      },
+      {
+        q: "Fraud Triangle(부정 삼각형)에 포함되지 않는 요소는?\nWhich is NOT an element of the Fraud Triangle?",
+        options: ["Opportunity(기회)", "Financial pressure(재무적 압박)", "Management responsibility(경영진 책임)", "Rationalization(합리화)"],
+        answer: 2,
+        explanation: "부정 삼각형의 세 요소는 기회(Opportunity), 재무적 압박(Financial Pressure), 합리화(Rationalization)입니다. 경영진 책임은 포함되지 않습니다.\nThe three elements of the Fraud Triangle are Opportunity, Financial Pressure, and Rationalization. Management responsibility is not one of them."
+      },
+      {
+        q: "Internal control(내부통제)의 목적이 아닌 것은?\nWhich is NOT a purpose of internal control?",
+        options: ["자산 보호 (Safeguarding assets)", "재무보고의 신뢰성 확보 (Ensuring reliable financial reporting)", "매출 극대화 (Maximizing revenue)", "법규 준수 (Compliance with regulations)"],
+        answer: 2,
+        explanation: "내부통제의 목적은 자산 보호, 재무보고 신뢰성, 법규 준수, 운영 효율성입니다. 매출 극대화는 내부통제의 목적이 아닙니다.\nInternal control aims to safeguard assets, ensure reliable reporting, comply with laws, and promote operational efficiency. Maximizing revenue is not an objective."
+      },
+      {
+        q: "Segregation of duties(직무 분리)의 의미로 가장 적절한 것은?\nWhich best describes the meaning of segregation of duties?",
+        options: ["모든 직원이 동일한 업무를 수행한다 (All employees perform the same tasks)", "거래의 기록과 자산의 실물 보관을 분리한다 (Recording transactions and physical custody of assets are separated)", "한 사람이 모든 프로세스를 담당한다 (One person handles all processes)", "외부 감사를 의무화한다 (External audit is mandatory)"],
+        answer: 1,
+        explanation: "직무 분리는 승인, 기록, 자산 보관 등의 기능을 서로 다른 사람이 담당하도록 하여 부정과 오류를 방지하는 핵심 통제 절차입니다.\nSegregation of duties assigns authorization, recordkeeping, and asset custody to different individuals to prevent fraud and errors."
+      },
+      {
+        q: "Cash equivalents(현금성자산)의 조건은?\nWhat qualifies as a cash equivalent?",
+        options: ["1년 이내 만기 (Maturity within 1 year)", "3개월 이내 만기의 고유동성 단기 투자 (Highly liquid short-term investment with maturity within 3 months)", "시장 가치 변동이 큰 투자 (Investment with high market value fluctuation)", "만기 제한 없음 (No maturity restriction)"],
+        answer: 1,
+        explanation: "현금성자산은 취득 시 만기가 3개월 이내인 유동성이 높고 가치 변동 위험이 적은 단기 투자를 말합니다.\nCash equivalents are highly liquid, short-term investments with original maturity of 3 months or less and minimal risk of value change."
+      },
+      {
+        q: "K-IFRS에서 재무상태표상 현금의 표시 위치는?\nWhere is cash presented on the balance sheet under K-IFRS?",
+        options: ["유동자산 맨 처음 (First among current assets)", "유동자산 맨 마지막 (Last among current assets)", "비유동자산 다음 (After non-current assets)", "자본 항목 (Under equity)"],
+        answer: 1,
+        explanation: "K-IFRS에서는 유동성이 낮은 자산부터 배열하므로 현금은 유동자산의 마지막에 표시됩니다(US GAAP과 반대).\nUnder K-IFRS, assets are listed from least to most liquid, so cash appears last among current assets (opposite of US GAAP)."
+      },
+      {
+        q: "Human resource controls(인적자원 통제)에 해당하지 않는 것은?\nWhich does NOT belong to human resource controls?",
+        options: ["직원 교육 (Employee training)", "의무 휴가제도 (Mandatory vacations)", "물리적 잠금장치 설치 (Installing physical locks)", "신원조회 (Background checks)"],
+        answer: 2,
+        explanation: "물리적 잠금장치는 Physical controls에 해당합니다. 인적자원 통제에는 적절한 채용, 교육, 의무 휴가, 직무 순환 등이 포함됩니다.\nPhysical locks fall under physical controls. Human resource controls include proper hiring, training, mandatory vacations, and job rotation."
+      }
+    ]
+  },
+  {
+    title: "Quiz #2",
+    subtitle: "Ch.6 Inventories & Ch.8 Receivables",
+    due: "4/13 (일)",
+    questions: [
+      {
+        q: "FOB Shipping Point 조건에서 운송 중인 상품의 소유권은 누구에게 있는가?\nUnder FOB Shipping Point terms, who owns the goods in transit?",
+        options: ["Seller(판매자)", "Buyer(구매자)", "운송회사 (Shipping company)", "보험회사 (Insurance company)"],
+        answer: 1,
+        explanation: "FOB Shipping Point는 상품이 선적지를 떠나는 시점에 소유권이 구매자에게 이전됩니다. 따라서 운송 중 위험도 구매자가 부담합니다.\nUnder FOB Shipping Point, ownership transfers to the buyer when goods leave the shipping point. The buyer bears the risk during transit."
+      },
+      {
+        q: "위탁판매(Consignment) 상품의 소유권은 누구에게 있는가?\nWho holds ownership of consignment goods?",
+        options: ["수탁자(Consignee)", "위탁자(Consignor)", "최종 소비자 (End consumer)", "운송회사 (Shipping company)"],
+        answer: 1,
+        explanation: "위탁판매에서 상품 소유권은 판매가 완료될 때까지 위탁자(Consignor)에게 있으며, 위탁자의 재고로 포함해야 합니다.\nIn consignment sales, ownership remains with the consignor until the goods are sold. The goods must be included in the consignor's inventory."
+      },
+      {
+        q: "인플레이션 시기에 FIFO 방법의 특징은?\nWhat are the characteristics of the FIFO method during inflation?",
+        options: ["기말재고 낮고, 순이익 낮다 (Lower ending inventory, lower net income)", "기말재고 높고, 순이익 높다 (Higher ending inventory, higher net income)", "기말재고와 순이익 모두 중간값 (Both ending inventory and net income are moderate)", "LIFO와 결과가 동일하다 (Results are identical to LIFO)"],
+        answer: 1,
+        explanation: "물가 상승 시 FIFO는 오래된(낮은) 원가를 COGS로 배분하므로 COGS가 낮아져 순이익이 높고, 최근(높은) 원가가 EI에 남아 재고가 높습니다.\nDuring inflation, FIFO assigns older (lower) costs to COGS, resulting in lower COGS and higher net income. Recent (higher) costs remain in ending inventory."
+      },
+      {
+        q: "LCNRV(저가법)에서 NRV(순실현가능가치)란?\nWhat is NRV (Net Realizable Value) under LCNRV?",
+        options: ["원가에서 감가상각을 뺀 금액 (Cost minus depreciation)", "판매 시 예상되는 회수 가능 금액 (Expected recoverable amount upon sale)", "시장에서의 재구매 가격 (Repurchase price in the market)", "장부가액 (Book value)"],
+        answer: 1,
+        explanation: "NRV = 예상 판매 가격 - 예상 완성 원가 - 예상 판매 비용입니다. 재고를 판매하여 실제로 회수할 수 있는 순금액을 의미합니다.\nNRV = Estimated selling price - Estimated costs to complete - Estimated selling costs. It represents the net amount recoverable from selling inventory."
+      },
+      {
+        q: "Inventory turnover(재고자산회전율)의 올바른 계산식은?\nWhat is the correct formula for inventory turnover?",
+        options: ["Sales / Ending Inventory", "COGS / Average Inventory", "Average Inventory / COGS", "Sales / Average Inventory"],
+        answer: 1,
+        explanation: "재고자산회전율 = COGS / 평균재고입니다. 높을수록 재고가 빠르게 순환됨을 의미하며, 매출이 아닌 COGS를 사용하는 것이 핵심입니다.\nInventory Turnover = COGS / Average Inventory. A higher ratio means faster inventory turnover. The key is using COGS, not Sales."
+      },
+      {
+        q: "제조업(Manufacturing)의 재고 3분류에 해당하지 않는 것은?\nWhich is NOT one of the three inventory classifications in manufacturing?",
+        options: ["Raw materials(원재료)", "Work in process(재공품)", "Merchandise inventory(상품재고)", "Finished goods(완성품)"],
+        answer: 2,
+        explanation: "제조업 재고는 원재료(Raw materials), 재공품(WIP), 완성품(Finished goods)으로 분류됩니다. Merchandise inventory는 상기업(Merchandiser)의 재고입니다.\nManufacturing inventory includes Raw Materials, Work in Process, and Finished Goods. Merchandise inventory belongs to merchandising companies."
+      },
+      {
+        q: "Aging schedule(연령분석표)의 기준은 무엇인가?\nWhat is the basis of the aging schedule?",
+        options: ["매출 발생일 (Date of sale)", "채권의 연체 기간별 대손율 적용 (Applying bad debt rates by receivable aging period)", "매입 거래 금액 (Purchase transaction amount)", "현금 수령 시점 (Time of cash receipt)"],
+        answer: 1,
+        explanation: "연령분석표는 매출채권을 연체 기간별(30일, 60일, 90일 등)로 분류하고 각 구간에 대손 추정률을 적용하여 대손충당금을 산정합니다.\nThe aging schedule classifies receivables by overdue period (30, 60, 90 days, etc.) and applies estimated bad debt rates to each bracket to determine the allowance."
+      },
+      {
+        q: "Notes receivable(받을어음)의 이자 계산식은?\nWhat is the interest formula for notes receivable?",
+        options: ["Face Value x Rate", "Face Value x Rate x Time", "Face Value / Rate x Time", "Principal x Rate / 12"],
+        answer: 1,
+        explanation: "이자 = 액면가(Face Value) x 이자율(Annual Rate) x 기간(Time, 연 단위)입니다. 기간이 월 단위면 n/12로 환산합니다.\nInterest = Face Value x Annual Rate x Time (in years). If the period is in months, convert as n/12."
+      },
+      {
+        q: "Accounts Receivable turnover(매출채권회전율)가 높으면 의미하는 것은?\nWhat does a high Accounts Receivable turnover indicate?",
+        options: ["회수가 느리다 (Collection is slow)", "회수가 빠르다 (Collection is fast)", "매출이 감소했다 (Sales decreased)", "대손이 많다 (Many bad debts)"],
+        answer: 1,
+        explanation: "AR 회전율 = 순매출 / 평균 매출채권으로, 높을수록 매출채권을 빠르게 현금으로 회수하고 있음을 의미합니다.\nAR Turnover = Net Sales / Average AR. A higher ratio means receivables are being collected more quickly."
+      },
+      {
+        q: "Allowance method(충당금법)에서 실제 대손이 발생했을 때의 분개는?\nWhat is the journal entry when an actual bad debt occurs under the allowance method?",
+        options: ["Dr. Bad Debt Expense / Cr. Accounts Receivable", "Dr. Allowance for Doubtful Accounts / Cr. Accounts Receivable", "Dr. Accounts Receivable / Cr. Allowance", "Dr. Cash / Cr. Allowance"],
+        answer: 1,
+        explanation: "실제 대손 발생 시 기존에 설정한 충당금을 줄이고 매출채권을 제거합니다. 비용은 이미 추정 시점에 인식했으므로 다시 인식하지 않습니다.\nWhen an actual bad debt occurs, the previously established allowance is reduced and the receivable is removed. The expense was already recognized at estimation time."
+      }
+    ]
+  },
+  {
+    title: "Quiz #3",
+    subtitle: "Ch.9 Long-lived Assets, Ch.10 Current Liabilities & Ch.11 Non-current Liabilities",
+    due: "4/20 (일)",
+    questions: [
+      {
+        q: "Straight-line depreciation(정액법)의 연간 감가상각비 계산식은?\nWhat is the annual depreciation expense formula under the straight-line method?",
+        options: ["(Cost - Residual Value) / Useful Life", "Cost / Useful Life", "Cost x Depreciation Rate", "(Cost - Accumulated Depreciation) x Rate"],
+        answer: 0,
+        explanation: "정액법 감가상각비 = (취득원가 - 잔존가치) / 내용연수입니다. 매년 동일한 금액을 감가상각비로 인식합니다.\nStraight-line depreciation = (Cost - Residual Value) / Useful Life. The same amount is recognized each year."
+      },
+      {
+        q: "Declining-balance method(체감잔액법)의 특징은?\nWhat is a characteristic of the declining-balance method?",
+        options: ["매년 동일한 감가상각비 (Same depreciation expense every year)", "초기에 감가상각비가 크고 점차 감소 (Higher depreciation initially, decreasing over time)", "내용연수 마지막에 감가상각비 최대 (Maximum depreciation at end of useful life)", "잔존가치를 고려하지 않는다 (Residual value is not considered)"],
+        answer: 1,
+        explanation: "체감잔액법은 장부가액에 일정 배율을 곱하므로 초기에 감가상각비가 크고 해가 갈수록 줄어드는 가속상각법입니다.\nThe declining-balance method multiplies book value by a fixed rate, producing higher depreciation early and decreasing amounts over time (accelerated method)."
+      },
+      {
+        q: "유형자산 처분 시 장부가액보다 높은 가격으로 매각하면?\nWhat happens when a tangible asset is sold above its book value?",
+        options: ["Gain on disposal(처분이익) 인식 (Recognize gain on disposal)", "Loss on disposal(처분손실) 인식 (Recognize loss on disposal)", "감가상각비 추가 인식 (Additional depreciation recognized)", "변동 없음 (No change)"],
+        answer: 0,
+        explanation: "처분 대가가 장부가액(취득원가 - 감가상각누계액)을 초과하면 그 차이를 Gain on disposal로 인식합니다.\nIf the disposal proceeds exceed book value (Cost - Accumulated Depreciation), the difference is recognized as a Gain on Disposal."
+      },
+      {
+        q: "다음 중 Current liability(유동부채)에 해당하지 않는 것은?\nWhich of the following is NOT a current liability?",
+        options: ["Accounts payable(매입채무)", "Bonds payable(사채) 만기 10년 (10-year maturity)", "Unearned revenue(선수수익)", "Salaries payable(미지급급여)"],
+        answer: 1,
+        explanation: "유동부채는 1년 이내 결제 예정인 부채입니다. 만기 10년 사채는 비유동부채(Non-current liability)에 해당합니다.\nCurrent liabilities are due within one year. Bonds payable with a 10-year maturity are classified as non-current liabilities."
+      },
+      {
+        q: "사채를 할인 발행(Discount)했을 때 이자비용은?\nWhat happens to interest expense when bonds are issued at a discount?",
+        options: ["액면이자와 동일하다 (Equal to coupon interest)", "액면이자보다 작다 (Less than coupon interest)", "액면이자보다 크다 (Greater than coupon interest)", "이자비용이 발생하지 않는다 (No interest expense)"],
+        answer: 2,
+        explanation: "할인 발행 시 시장이자율 > 표시이자율이므로, 실질 이자비용(시장이자율 기반)이 액면이자(표시이자율 기반)보다 큽니다. 할인 상각분이 추가됩니다.\nWhen bonds are issued at a discount, market rate > stated rate, so actual interest expense (based on market rate) exceeds coupon interest. Discount amortization is added."
+      },
+      {
+        q: "Warranty liability(보증부채) 인식 시점은?\nWhen should warranty liability be recognized?",
+        options: ["보증 청구 시 (When a warranty claim is filed)", "판매 시점에 추정하여 인식 (Estimated and recognized at the time of sale)", "보증 기간 종료 시 (At the end of the warranty period)", "현금 지출 시 (When cash is paid)"],
+        answer: 1,
+        explanation: "발생주의 원칙에 따라 보증비용은 관련 수익(매출)이 인식되는 시점에 합리적으로 추정하여 부채로 인식합니다.\nUnder the accrual basis, warranty costs are estimated and recognized as a liability when the related revenue (sale) is recognized."
+      },
+      {
+        q: "다음 중 Intangible asset(무형자산)이 아닌 것은?\nWhich of the following is NOT an intangible asset?",
+        options: ["Patent(특허권)", "Goodwill(영업권)", "Equipment(설비)", "Trademark(상표권)"],
+        answer: 2,
+        explanation: "Equipment는 물리적 실체가 있는 유형자산(PPE)입니다. 무형자산은 물리적 실체 없이 미래 경제적 효익을 제공하는 자산입니다.\nEquipment is a tangible asset (PPE) with physical substance. Intangible assets lack physical substance but provide future economic benefits."
+      },
+      {
+        q: "사채가 할증 발행(Premium)되는 조건은?\nUnder what condition are bonds issued at a premium?",
+        options: ["시장이자율 > 표시이자율 (Market rate > Stated rate)", "시장이자율 < 표시이자율 (Market rate < Stated rate)", "시장이자율 = 표시이자율 (Market rate = Stated rate)", "만기가 긴 경우 (When maturity is long)"],
+        answer: 1,
+        explanation: "시장이자율이 표시이자율보다 낮으면 투자자들이 더 높은 이자를 받기 위해 프리미엄을 지불하므로 할증 발행됩니다.\nWhen the market rate is lower than the stated rate, investors pay a premium to receive the higher coupon interest."
+      },
+      {
+        q: "사채 조기 상환 시 장부가액보다 더 많이 지불하면?\nWhat happens when bonds are redeemed early for more than their book value?",
+        options: ["Gain on redemption", "Loss on redemption(상환손실)", "이자비용 감소 (Interest expense decreases)", "변동 없음 (No change)"],
+        answer: 1,
+        explanation: "상환 대가가 사채 장부가액보다 크면 그 초과분을 Loss on redemption으로 인식합니다.\nIf the redemption price exceeds the bond's carrying amount, the excess is recognized as a Loss on Redemption."
+      },
+      {
+        q: "Units-of-activity method(생산량비례법)의 감가상각 기반은?\nWhat is the depreciation basis for the units-of-activity method?",
+        options: ["경과 시간 (Elapsed time)", "실제 사용량 또는 생산량 (Actual usage or production output)", "매출액 비율 (Revenue ratio)", "자산의 시장가치 (Market value of asset)"],
+        answer: 1,
+        explanation: "생산량비례법은 자산의 예상 총생산량 대비 실제 생산량(또는 사용량) 비율로 감가상각비를 배분합니다.\nThe units-of-activity method allocates depreciation based on the ratio of actual production (or usage) to total estimated output."
+      }
+    ]
+  },
+  {
+    title: "Quiz #4",
+    subtitle: "Ch.12 Equity & Ch.13 Investments",
+    due: "4/27 (일)",
+    questions: [
+      {
+        q: "주식을 액면가 이상으로 발행할 때 액면초과액은 어디에 기록하는가?\nWhere is the excess over par value recorded when shares are issued above par?",
+        options: ["Retained Earnings", "Share Premium(주식발행초과금)", "Revenue", "Other Expenses"],
+        answer: 1,
+        explanation: "액면가 초과분은 Share Premium(주식발행초과금, APIC)에 기록됩니다. 이는 자본잉여금의 일부입니다.\nThe excess over par value is recorded in Share Premium (APIC). This is part of additional paid-in capital."
+      },
+      {
+        q: "Cash dividend 관련 날짜의 올바른 순서는?\nWhat is the correct sequence of dates related to cash dividends?",
+        options: ["Record → Declaration → Payment", "Declaration → Record → Payment", "Payment → Declaration → Record", "Record → Payment → Declaration"],
+        answer: 1,
+        explanation: "배당 절차: 선언일(Declaration) → 기록일(Record Date) → 지급일(Payment Date) 순서입니다. 선언일에 부채를 인식합니다.\nDividend procedure: Declaration Date → Record Date → Payment Date. A liability is recognized on the declaration date."
+      },
+      {
+        q: "Stock dividend(주식배당)이 자본총계(Total Equity)에 미치는 영향은?\nWhat is the effect of a stock dividend on Total Equity?",
+        options: ["자본 증가 (Equity increases)", "자본 감소 (Equity decreases)", "변동 없음 (No change)", "부채 증가 (Liabilities increase)"],
+        answer: 2,
+        explanation: "주식배당은 이익잉여금에서 자본금과 주식발행초과금으로 이전되므로 자본 내부 구성만 변하고 총계는 변동 없습니다.\nA stock dividend transfers from Retained Earnings to Share Capital and Share Premium. Only the internal composition of equity changes; the total remains the same."
+      },
+      {
+        q: "Treasury shares(자기주식)를 취득하면 자본총계는?\nWhat happens to total equity when treasury shares are acquired?",
+        options: ["증가 (Increases)", "감소 (Decreases)", "변동 없음 (No change)", "부채로 전환 (Converted to liability)"],
+        answer: 1,
+        explanation: "자기주식 취득은 자본의 차감 항목으로, 현금 유출과 함께 자본총계가 감소합니다.\nTreasury share acquisition is a contra-equity item. Cash outflow causes total equity to decrease."
+      },
+      {
+        q: "Retained Earnings(이익잉여금)를 증가시키는 요인은?\nWhat factor increases Retained Earnings?",
+        options: ["배당 선언 (Dividend declaration)", "Net Income(당기순이익)", "자기주식 취득 (Treasury share acquisition)", "주식 분할 (Stock split)"],
+        answer: 1,
+        explanation: "당기순이익은 이익잉여금을 증가시키는 주된 원천입니다. 배당은 이익잉여금을 감소시킵니다.\nNet income is the primary source that increases Retained Earnings. Dividends decrease Retained Earnings."
+      },
+      {
+        q: "Trading securities(단기매매금융자산)의 공정가치 변동은 어디에 반영하는가?\nWhere are fair value changes of trading securities reported?",
+        options: ["기타포괄손익(OCI) (Other Comprehensive Income)", "당기손익(Profit or Loss)", "이익잉여금에 직접 반영 (Directly in Retained Earnings)", "인식하지 않음 (Not recognized)"],
+        answer: 1,
+        explanation: "단기매매금융자산(FVPL)의 공정가치 변동은 당기손익으로 즉시 인식하여 포괄손익계산서에 반영됩니다.\nFair value changes of trading securities (FVPL) are recognized immediately in profit or loss on the income statement."
+      },
+      {
+        q: "Equity method(지분법)을 적용하는 경우는?\nWhen is the equity method applied?",
+        options: ["지분율 20% 미만 (Ownership below 20%)", "유의적 영향력 보유(통상 20~50%) (Significant influence, typically 20-50%)", "지분율 50% 초과 (Ownership over 50%)", "모든 투자에 적용 (Applied to all investments)"],
+        answer: 1,
+        explanation: "지분법은 피투자회사에 유의적 영향력(Significant influence)을 행사할 수 있는 경우(통상 20~50%)에 적용합니다.\nThe equity method is used when the investor has significant influence over the investee, typically at 20-50% ownership."
+      },
+      {
+        q: "Non-trading equity investment(비매매목적 지분투자)의 공정가치 변동은?\nWhere are fair value changes of non-trading equity investments reported?",
+        options: ["당기손익 (Profit or Loss)", "기타포괄손익(OCI) (Other Comprehensive Income)", "인식하지 않음 (Not recognized)", "이익잉여금 (Retained Earnings)"],
+        answer: 1,
+        explanation: "비매매목적 지분투자(FVOCI)는 공정가치 변동을 기타포괄손익(OCI)으로 인식하여 자본의 별도 항목에 누적합니다.\nNon-trading equity investments (FVOCI) recognize fair value changes in OCI, accumulated in a separate equity component."
+      },
+      {
+        q: "채권 투자의 이자 수익 인식 기준은?\nWhat is the basis for recognizing interest revenue on bond investments?",
+        options: ["현금 수령 시 (When cash is received)", "발생주의에 따라 기간 경과 기준 (Accrual basis over the passage of time)", "만기 시 일괄 인식 (Recognized in full at maturity)", "투자 시점에 전액 인식 (Recognized in full at time of investment)"],
+        answer: 1,
+        explanation: "이자 수익은 발생주의(Accrual basis)에 따라 시간의 경과에 비례하여 인식합니다. 현금 수령과 관계없이 기간에 배분합니다.\nInterest revenue is recognized on an accrual basis proportional to the passage of time, regardless of when cash is received."
+      },
+      {
+        q: "지분법 적용 시 피투자회사가 순이익을 보고하면 투자자의 분개는?\nWhat is the investor's journal entry when the investee reports net income under the equity method?",
+        options: ["Dr. Cash / Cr. Investment", "Dr. Investment / Cr. Revenue(투자수익 Investment Revenue)", "Dr. Expense / Cr. Investment", "분개 없음 (No entry)"],
+        answer: 1,
+        explanation: "피투자회사의 순이익 중 지분율에 해당하는 금액만큼 투자 자산을 증가(Dr.)시키고 투자수익을 인식(Cr.)합니다.\nThe investor increases the investment asset (Dr.) and recognizes investment revenue (Cr.) for its share of the investee's net income."
+      }
+    ]
+  },
+  {
+    title: "Quiz #5",
+    subtitle: "Ch.14 Statement of Cash Flows & Ch.15 Financial Analysis",
+    due: "5/2 (금)",
+    questions: [
+      {
+        q: "현금흐름표의 3가지 활동에 해당하지 않는 것은?\nWhich is NOT one of the three activity categories in the Statement of Cash Flows?",
+        options: ["Operating(영업)", "Investing(투자)", "Financing(재무)", "Revenue(수익)"],
+        answer: 3,
+        explanation: "현금흐름표는 영업활동(Operating), 투자활동(Investing), 재무활동(Financing)으로 구분됩니다. Revenue는 활동 분류가 아닙니다.\nThe cash flow statement is divided into Operating, Investing, and Financing activities. Revenue is not an activity classification."
+      },
+      {
+        q: "간접법(Indirect method)에서 감가상각비는 어떻게 처리하는가?\nHow is depreciation expense treated under the indirect method?",
+        options: ["Net Income에서 차감 (Deducted from Net Income)", "Net Income에 가산 (Added back to Net Income)", "별도 항목으로 표시 (Shown as a separate item)", "투자활동에 포함 (Included in investing activities)"],
+        answer: 1,
+        explanation: "감가상각비는 현금 유출이 없는 비용이므로 간접법에서는 당기순이익에 다시 가산(Add back)합니다.\nDepreciation is a non-cash expense, so under the indirect method it is added back to net income."
+      },
+      {
+        q: "토지 매각 대금은 현금흐름표의 어떤 활동에 해당하는가?\nWhich activity does the proceeds from sale of land belong to on the cash flow statement?",
+        options: ["Operating(영업)", "Investing(투자)", "Financing(재무)", "해당 없음 (Not applicable)"],
+        answer: 1,
+        explanation: "유형자산(토지, 건물, 설비 등)의 취득과 처분은 투자활동(Investing activities)으로 분류됩니다.\nAcquisition and disposal of long-lived assets (land, buildings, equipment) are classified as investing activities."
+      },
+      {
+        q: "사채 발행으로 수취한 현금은 어떤 활동에 해당하는가?\nWhich activity does cash received from issuing bonds belong to?",
+        options: ["Operating(영업)", "Investing(투자)", "Financing(재무)", "비현금 거래 (Non-cash transaction)"],
+        answer: 2,
+        explanation: "사채 발행, 주식 발행, 배당 지급, 차입금 상환 등은 모두 재무활동(Financing activities)에 해당합니다.\nIssuing bonds, issuing shares, paying dividends, and repaying loans are all classified as financing activities."
+      },
+      {
+        q: "간접법에서 매출채권(AR)이 증가하면?\nWhat happens when Accounts Receivable increases under the indirect method?",
+        options: ["Net Income에 가산 (Added to Net Income)", "Net Income에서 차감 (Deducted from Net Income)", "투자활동으로 분류 (Classified as investing activity)", "영향 없음 (No effect)"],
+        answer: 1,
+        explanation: "AR 증가는 매출은 인식했으나 현금은 미수취한 것이므로 영업활동 현금흐름 산출 시 당기순이익에서 차감합니다.\nAn increase in AR means revenue was recognized but cash was not yet received, so it is deducted from net income when calculating operating cash flows."
+      },
+      {
+        q: "Current ratio(유동비율)의 계산식은?\nWhat is the formula for the current ratio?",
+        options: ["Current Liabilities / Current Assets", "Current Assets / Current Liabilities", "Total Assets / Total Liabilities", "Quick Assets / Current Liabilities"],
+        answer: 1,
+        explanation: "유동비율 = 유동자산 / 유동부채입니다. 단기 채무 이행 능력을 측정하며, 일반적으로 2:1 이상이면 양호합니다.\nCurrent Ratio = Current Assets / Current Liabilities. It measures short-term debt-paying ability; generally 2:1 or above is considered healthy."
+      },
+      {
+        q: "ROA(총자산이익률)의 계산식은?\nWhat is the formula for ROA (Return on Assets)?",
+        options: ["Net Income / Total Assets", "Net Income / Total Equity", "Operating Income / Total Assets", "EBIT / Total Equity"],
+        answer: 0,
+        explanation: "ROA = 당기순이익 / 총자산으로, 기업이 보유한 총자산을 얼마나 효율적으로 활용하여 이익을 창출하는지 측정합니다.\nROA = Net Income / Total Assets. It measures how efficiently a company uses its total assets to generate profit."
+      },
+      {
+        q: "Debt to Total Assets ratio(부채비율)가 높으면 의미하는 것은?\nWhat does a high Debt to Total Assets ratio indicate?",
+        options: ["자기자본 의존도가 높다 (High reliance on equity)", "부채 의존도가 높다(재무 위험 증가) (High reliance on debt, increased financial risk)", "수익성이 높다 (High profitability)", "유동성이 높다 (High liquidity)"],
+        answer: 1,
+        explanation: "부채비율이 높을수록 타인자본(부채) 의존도가 크고 재무적 위험이 증가함을 의미합니다.\nA higher debt ratio means greater reliance on debt financing and increased financial risk."
+      },
+      {
+        q: "Vertical analysis에서 포괄손익계산서(Income Statement)의 기준 항목은?\nWhat is the base item for the Income Statement in vertical analysis?",
+        options: ["Total Assets", "Net Sales(순매출)", "Net Income", "Total Equity"],
+        answer: 1,
+        explanation: "수직적 분석 시 손익계산서는 순매출(Net Sales)을 100%로 놓고 각 항목의 비율을 산출합니다. 재무상태표는 총자산 기준입니다.\nIn vertical analysis, Net Sales is set to 100% on the income statement and each item is expressed as a percentage. The balance sheet uses Total Assets as the base."
+      },
+      {
+        q: "EPS(주당순이익)의 계산식은?\nWhat is the formula for Earnings Per Share (EPS)?",
+        options: ["Net Income / Total Shares Issued", "Net Income / Weighted-average Ordinary Shares Outstanding", "Total Revenue / Total Shares", "Operating Income / Shares Outstanding"],
+        answer: 1,
+        explanation: "EPS = 당기순이익 / 가중평균 유통보통주식수입니다. 발행 주식이 아닌 실제 유통 주식의 가중평균을 사용합니다.\nEPS = Net Income / Weighted-average Ordinary Shares Outstanding. It uses the weighted average of shares actually outstanding, not total issued."
+      }
+    ]
+  }
+];
+
+let currentTab = 0;
+let userAnswers = {};
+let graded = {};
+
+function switchTab(idx) {
+  currentTab = idx;
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    if (i === idx) {
+      btn.classList.add('active');
+      btn.style.backgroundColor = '#3182F6';
+      btn.style.color = '#fff';
+    } else {
+      btn.classList.remove('active');
+      btn.style.backgroundColor = '#F4F4F5';
+      btn.style.color = '#71717A';
+    }
+  });
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectAnswer(qIdx, optIdx) {
+  const key = `${currentTab}-${qIdx}`;
+  if (graded[currentTab]) return;
+  userAnswers[key] = optIdx;
+  renderQuiz();
+}
+
+function gradeQuiz() {
+  graded[currentTab] = true;
+  renderQuiz();
+  document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  const quiz = quizData[currentTab];
+  quiz.questions.forEach((_, i) => {
+    delete userAnswers[`${currentTab}-${i}`];
+  });
+  graded[currentTab] = false;
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuiz() {
+  const quiz = quizData[currentTab];
+  const isGraded = graded[currentTab];
+  let correct = 0;
+  let total = quiz.questions.length;
+  let answered = 0;
+
+  quiz.questions.forEach((q, i) => {
+    const key = `${currentTab}-${i}`;
+    if (userAnswers[key] !== undefined) answered++;
+    if (isGraded && userAnswers[key] === q.answer) correct++;
+  });
+
+  let html = '';
+
+  // Quiz header
+  html += `
+    <div class="mb-6">
+      <div class="flex items-center gap-3 mb-1">
+        <h2 class="text-xl font-bold">${quiz.title}</h2>
+        <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-xs font-semibold">마감 ${quiz.due}</span>
+      </div>
+      <p class="text-sm text-zinc-500">${quiz.subtitle}</p>
+    </div>
+  `;
+
+  // Questions
+  quiz.questions.forEach((q, qIdx) => {
+    const key = `${currentTab}-${qIdx}`;
+    const selected = userAnswers[key];
+    const isCorrect = selected === q.answer;
+
+    let cardBorder = 'border-zinc-100';
+    if (isGraded) {
+      if (selected === undefined) cardBorder = 'border-zinc-200';
+      else if (isCorrect) cardBorder = 'border-emerald-200';
+      else cardBorder = 'border-red-200';
+    }
+
+    html += `<div class="bg-white rounded-2xl border ${cardBorder} p-6 mb-4 ${isGraded ? '' : 'hover:border-zinc-200'} transition-smooth">`;
+    html += `<div class="flex items-start gap-3 mb-4">`;
+    html += `<span class="flex-shrink-0 w-7 h-7 rounded-lg ${isGraded ? (selected !== undefined ? (isCorrect ? 'bg-emerald-500' : 'bg-red-500') : 'bg-zinc-300') : 'bg-accent'} text-white text-xs font-bold flex items-center justify-center">${qIdx + 1}</span>`;
+    html += `<p class="text-[15px] font-medium leading-relaxed pt-0.5">${q.q.replace(/\n/g, '<br>')}</p>`;
+    html += `</div>`;
+
+    html += `<div class="grid gap-2 ml-10">`;
+    const labels = ['A', 'B', 'C', 'D'];
+    q.options.forEach((opt, optIdx) => {
+      let optClass = '';
+      let circleClass = '';
+      let labelColor = '';
+
+      if (isGraded) {
+        if (optIdx === q.answer) {
+          optClass = 'bg-emerald-50 border-emerald-200';
+          circleClass = 'border-emerald-500 bg-emerald-500';
+          labelColor = 'text-emerald-700';
+        } else if (optIdx === selected && optIdx !== q.answer) {
+          optClass = 'bg-red-50 border-red-200';
+          circleClass = 'border-red-500 bg-red-500';
+          labelColor = 'text-red-700';
+        } else {
+          optClass = 'bg-zinc-50 border-zinc-100 opacity-60';
+          circleClass = 'border-zinc-300';
+          labelColor = 'text-zinc-400';
+        }
+      } else {
+        if (optIdx === selected) {
+          optClass = 'bg-accent-light border-accent';
+          circleClass = 'border-accent bg-accent';
+          labelColor = 'text-accent';
+        } else {
+          optClass = 'bg-white border-zinc-200 hover:border-zinc-300 hover:bg-zinc-50 cursor-pointer';
+          circleClass = 'border-zinc-300';
+          labelColor = 'text-zinc-600';
+        }
+      }
+
+      html += `<div onclick="selectAnswer(${qIdx}, ${optIdx})" class="flex items-center gap-3 px-4 py-3 rounded-xl border ${optClass} transition-smooth">`;
+      html += `<div class="w-5 h-5 rounded-full border-2 ${circleClass} flex-shrink-0 flex items-center justify-center">`;
+      if ((isGraded && (optIdx === q.answer || optIdx === selected)) || (!isGraded && optIdx === selected)) {
+        html += `<div class="w-2 h-2 rounded-full bg-white"></div>`;
+      }
+      html += `</div>`;
+      html += `<span class="text-xs font-bold ${labelColor} flex-shrink-0">${labels[optIdx]}</span>`;
+      html += `<span class="text-sm ${isGraded && optIdx !== q.answer && optIdx !== selected ? 'text-zinc-400' : 'text-zinc-700'}">${opt}</span>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+
+    // Explanation after grading
+    if (isGraded) {
+      html += `<div class="mt-4 ml-10 p-4 bg-blue-50 rounded-xl border border-blue-100">`;
+      html += `<div class="flex items-start gap-2">`;
+      html += `<iconify-icon icon="solar:lightbulb-bold" class="text-accent text-lg mt-0.5 flex-shrink-0"></iconify-icon>`;
+      html += `<p class="text-sm text-zinc-600 leading-relaxed">${q.explanation.replace(/\n/g, '<br>')}</p>`;
+      html += `</div></div>`;
+    }
+
+    html += `</div>`;
+  });
+
+  // Result / Actions
+  html += `<div id="resultArea">`;
+  if (isGraded) {
+    const score = Math.round((correct / total) * 100);
+    const passed = score >= 60;
+    html += `
+      <div class="bg-white rounded-2xl border ${passed ? 'border-emerald-200' : 'border-red-200'} p-8 mb-4 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full ${passed ? 'bg-emerald-100' : 'bg-red-100'} flex items-center justify-center">
+          <iconify-icon icon="${passed ? 'solar:check-circle-bold' : 'solar:close-circle-bold'}" class="text-3xl ${passed ? 'text-emerald-500' : 'text-red-500'}"></iconify-icon>
+        </div>
+        <div class="text-4xl font-extrabold mb-1 ${passed ? 'text-emerald-600' : 'text-red-600'}">${score}점</div>
+        <div class="text-sm text-zinc-500 mb-1">${total}문제 중 ${correct}문제 정답</div>
+        <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold mt-2 ${passed ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}">
+          <iconify-icon icon="${passed ? 'solar:verified-check-bold' : 'solar:danger-triangle-bold'}" class="text-base"></iconify-icon>
+          ${passed ? 'PASS' : 'FAIL (60% 이상 필요)'}
+        </div>
+      </div>
+      <button onclick="resetQuiz()" class="w-full py-4 rounded-2xl border-2 border-dashed border-zinc-300 text-zinc-500 font-semibold text-sm hover:border-accent hover:text-accent transition-smooth flex items-center justify-center gap-2">
+        <iconify-icon icon="solar:restart-bold" class="text-lg"></iconify-icon>
+        다시 풀기
+      </button>
+    `;
+  } else {
+    const allAnswered = answered === total;
+    html += `
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-sm text-zinc-500">${answered} / ${total} 답변 완료</span>
+        <div class="flex-1 mx-4 h-2 bg-zinc-100 rounded-full overflow-hidden">
+          <div class="h-full bg-accent rounded-full transition-all duration-500" style="width:${(answered/total)*100}%"></div>
+        </div>
+      </div>
+      <button onclick="gradeQuiz()" ${allAnswered ? '' : 'disabled'} class="w-full py-4 rounded-2xl font-semibold text-sm flex items-center justify-center gap-2 transition-smooth ${allAnswered ? 'bg-accent text-white hover:bg-accent-dark' : 'bg-zinc-100 text-zinc-400 cursor-not-allowed'}">
+        <iconify-icon icon="solar:check-read-bold" class="text-lg"></iconify-icon>
+        채점하기
+      </button>
+    `;
+  }
+  html += `</div>`;
+
+  document.getElementById('quizContainer').innerHTML = html;
+}
+
+// Initialize
+switchTab(0);
+</script>
+
+</body>
+</html>

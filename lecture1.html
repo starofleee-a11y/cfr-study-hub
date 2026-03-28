@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1 - Corporate Financial Reporting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+    <style>
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; word-break: keep-all; }
+        html { scroll-behavior: smooth; }
+        .accent-box { background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%); }
+        .formula-box { background: #fffbeb; border-left: 4px solid #f59e0b; }
+        .key-box { background: #f0fdf4; border-left: 4px solid #22c55e; }
+        .warn-box { background: #fef2f2; border-left: 4px solid #ef4444; }
+        .flow-arrow { position: relative; }
+        .flow-arrow::after { content: ''; position: absolute; right: -18px; top: 50%; transform: translateY(-50%); border: 6px solid transparent; border-left: 8px solid #6366f1; }
+        .progress-dot { transition: all 0.3s ease; }
+        .progress-dot.active { background: #6366f1; color: white; transform: scale(1.1); }
+        .quiz-option { transition: all 0.2s ease; }
+        .quiz-option:hover { background: #f8fafc; border-color: #6366f1; }
+        .quiz-option.correct { background: #f0fdf4 !important; border-color: #22c55e !important; }
+        .quiz-option.wrong { background: #fef2f2 !important; border-color: #ef4444 !important; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        primaryLight: '#e0e7ff',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="lectures.html" class="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors text-sm">
+            <span class="iconify" data-icon="solar:arrow-left-linear" data-width="18"></span>
+            강의 목록으로
+        </a>
+        <span class="text-xs text-gray-400">Lecture 1 / 6</span>
+    </div>
+</nav>
+
+<!-- Progress Indicator -->
+<div class="sticky top-[57px] z-40 bg-white/90 backdrop-blur border-b border-gray-50">
+    <div class="max-w-4xl mx-auto px-6 py-3 flex items-center gap-2 overflow-x-auto text-xs" id="progressBar">
+        <button onclick="scrollToSection('sec1')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="sec1">1. 재무 흐름</button>
+        <button onclick="scrollToSection('sec2')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="sec2">2. 상기업 회계</button>
+        <button onclick="scrollToSection('sec3')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="sec3">3. 부정 & 내부통제</button>
+        <button onclick="scrollToSection('sec4')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="sec4">4. 재고자산</button>
+        <button onclick="scrollToSection('sec5')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="sec5">5. 산업별 특성</button>
+        <button onclick="scrollToSection('secQuiz')" class="progress-dot px-3 py-1.5 rounded-full bg-gray-100 text-gray-500 whitespace-nowrap cursor-pointer hover:bg-primary hover:text-white" data-section="secQuiz">Quiz</button>
+    </div>
+</div>
+
+<!-- Hero -->
+<header class="max-w-4xl mx-auto px-6 pt-12 pb-8">
+    <div class="flex items-center gap-3 mb-4">
+        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">Lecture 1</span>
+        <span class="text-xs text-gray-400">2026. 3. 24</span>
+    </div>
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">재무보고의 기초</h1>
+    <p class="text-gray-500 text-base leading-relaxed">3대 재무제표 연결 구조, 상기업 회계, 부정과 내부통제, 재고자산 회계의 핵심을 다룹니다.</p>
+    <div class="flex flex-wrap gap-2 mt-5">
+        <span class="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs">Ch.5 Merchandising</span>
+        <span class="px-2.5 py-1 bg-green-50 text-green-600 rounded-lg text-xs">Ch.7 Fraud & Internal Control</span>
+        <span class="px-2.5 py-1 bg-amber-50 text-amber-600 rounded-lg text-xs">Ch.6 Inventories</span>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-6 pb-24 space-y-16">
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: Understanding Financial Flow -->
+    <!-- ============================================ -->
+    <section id="sec1">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-indigo-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-primary" data-icon="solar:chart-square-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">재무제표의 흐름 이해하기</h2>
+                <p class="text-sm text-gray-400">Understanding Financial Flow</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="iconify text-primary" data-icon="solar:link-bold" data-width="18"></span>
+                3대 재무제표는 이렇게 연결돼요
+            </h3>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                회사가 1년 동안 장사한 결과(손익계산서)에서 남은 이익이, 회사가 가진 것(재무상태표)의 자본 부분에 쌓여요.
+                그런데 이익이 나왔다고 반드시 현금이 있는 건 아니거든요. 그래서 현금흐름표가 따로 필요한 거예요.
+            </p>
+
+            <!-- Visual Flow Diagram -->
+            <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+                <p class="text-xs text-gray-400 mb-4 font-medium">3대 재무제표 연결 구조</p>
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-4">
+                    <!-- Income Statement -->
+                    <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-4 flex-1 min-w-0 w-full">
+                        <p class="text-xs font-bold text-blue-700 mb-3">Income Statement (손익계산서)</p>
+                        <div class="space-y-1.5 text-xs text-gray-700">
+                            <div class="bg-white rounded-lg px-3 py-1.5">매출 (Revenue)</div>
+                            <div class="text-center text-gray-400">- 매출원가</div>
+                            <div class="bg-white rounded-lg px-3 py-1.5">= 매출총이익 (Gross Profit)</div>
+                            <div class="text-center text-gray-400">- 판관비</div>
+                            <div class="bg-white rounded-lg px-3 py-1.5">= 영업이익 (Operating Income)</div>
+                            <div class="text-center text-gray-400">- 이자/세금</div>
+                            <div class="bg-blue-100 rounded-lg px-3 py-1.5 font-bold text-blue-800">= 순이익 (Net Income) ★</div>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex md:flex-col items-center justify-center py-2 md:py-0 md:pt-16">
+                        <span class="iconify text-primary hidden md:block" data-icon="solar:arrow-right-bold" data-width="28"></span>
+                        <span class="iconify text-primary md:hidden" data-icon="solar:arrow-down-bold" data-width="28"></span>
+                        <span class="text-[10px] text-primary font-medium ml-1 md:ml-0 md:mt-1">연결!</span>
+                    </div>
+
+                    <!-- Balance Sheet -->
+                    <div class="bg-green-50 border-2 border-green-200 rounded-2xl p-4 flex-1 min-w-0 w-full">
+                        <p class="text-xs font-bold text-green-700 mb-3">Balance Sheet (재무상태표)</p>
+                        <div class="flex gap-2 text-xs">
+                            <div class="flex-1 space-y-1.5">
+                                <p class="text-gray-500 font-medium mb-1">돈 쓴 곳 (자산)</p>
+                                <div class="bg-white rounded-lg px-3 py-1.5">현금</div>
+                                <div class="bg-white rounded-lg px-3 py-1.5">매출채권</div>
+                                <div class="bg-white rounded-lg px-3 py-1.5">재고</div>
+                                <div class="bg-white rounded-lg px-3 py-1.5">유형자산</div>
+                            </div>
+                            <div class="flex-1 space-y-1.5">
+                                <p class="text-gray-500 font-medium mb-1">돈 빌려온 곳</p>
+                                <div class="bg-white rounded-lg px-3 py-1.5">부채</div>
+                                <div class="bg-green-100 rounded-lg px-3 py-1.5 font-bold text-green-800">
+                                    이익잉여금 ★<br>
+                                    <span class="font-normal text-[10px]">(순이익이 여기로!)</span>
+                                </div>
+                                <div class="bg-white rounded-lg px-3 py-1.5">자본금</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="flex md:flex-col items-center justify-center py-2 md:py-0 md:pt-16">
+                        <span class="iconify text-primary hidden md:block" data-icon="solar:arrow-right-bold" data-width="28"></span>
+                        <span class="iconify text-primary md:hidden" data-icon="solar:arrow-down-bold" data-width="28"></span>
+                        <span class="text-[10px] text-primary font-medium ml-1 md:ml-0 md:mt-1">검증!</span>
+                    </div>
+
+                    <!-- Cash Flow -->
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 flex-1 min-w-0 w-full">
+                        <p class="text-xs font-bold text-amber-700 mb-3">Cash Flow Statement (현금흐름표)</p>
+                        <div class="space-y-1.5 text-xs text-gray-700">
+                            <div class="bg-white rounded-lg px-3 py-1.5">영업활동 CF</div>
+                            <div class="bg-white rounded-lg px-3 py-1.5">투자활동 CF</div>
+                            <div class="bg-white rounded-lg px-3 py-1.5">재무활동 CF</div>
+                            <div class="bg-amber-100 rounded-lg px-3 py-1.5 font-bold text-amber-800">= 현금 변동액</div>
+                            <p class="text-[10px] text-amber-600 mt-2">이익 ≠ 현금이라서 필요!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Connection -->
+            <div class="formula-box rounded-xl p-5">
+                <p class="text-sm font-semibold text-amber-800 mb-2">
+                    <span class="iconify inline" data-icon="solar:key-bold" data-width="16"></span>
+                    핵심 연결 공식
+                </p>
+                <p class="text-sm text-gray-700">
+                    기초 이익잉여금 + <strong class="text-blue-600">순이익</strong> - <strong class="text-red-500">배당금</strong> = 기말 이익잉여금
+                </p>
+                <p class="text-xs text-gray-500 mt-2">순이익이 자본(이익잉여금)에 더해지고, 배당하면 줄어들어요.</p>
+            </div>
+        </div>
+
+        <div class="key-box rounded-xl p-5">
+            <p class="text-sm font-semibold text-green-800 mb-2">
+                <span class="iconify inline" data-icon="solar:lightbulb-bolt-bold" data-width="16"></span>
+                왜 이익이랑 현금이 다를까?
+            </p>
+            <p class="text-sm text-gray-600 leading-relaxed">
+                물건을 외상으로 팔면 손익계산서에는 매출(이익)이 잡히지만, 현금은 아직 안 들어왔잖아요.
+                반대로 기계를 현금으로 사면 현금은 나가지만, 비용은 감가상각으로 나눠서 잡혀요.
+                이런 차이를 보여주는 게 현금흐름표예요.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: Ch.5 Merchandising Operations -->
+    <!-- ============================================ -->
+    <section id="sec2">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-blue-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-blue-600" data-icon="solar:shop-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">상기업 회계</h2>
+                <p class="text-sm text-gray-400">Ch.5 Merchandising Operations</p>
+            </div>
+        </div>
+
+        <!-- 상기업 vs 서비스기업 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">상기업 vs 서비스기업</h3>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-blue-50 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-blue-700 mb-2">
+                        <span class="iconify inline" data-icon="solar:shop-2-bold" data-width="16"></span>
+                        상기업 (Merchandising)
+                    </p>
+                    <p class="text-sm text-gray-600">물건을 사서 팔아 이익을 남기는 기업이에요. 쿠팡, 이마트 같은 곳이죠.</p>
+                    <p class="text-xs text-blue-600 mt-2 font-medium">Revenue - COGS = Gross Profit</p>
+                </div>
+                <div class="bg-purple-50 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-purple-700 mb-2">
+                        <span class="iconify inline" data-icon="solar:monitor-bold" data-width="16"></span>
+                        서비스기업 (Service)
+                    </p>
+                    <p class="text-sm text-gray-600">서비스를 제공해서 이익을 남기는 기업이에요. 컨설팅, 회계법인 등.</p>
+                    <p class="text-xs text-purple-600 mt-2 font-medium">Revenue - Operating Expenses = Net Income</p>
+                </div>
+            </div>
+
+            <h3 class="font-semibold text-gray-900 mb-3">Operating Cycle이 더 긴 이유</h3>
+            <div class="bg-gray-50 rounded-2xl p-5 mb-6">
+                <div class="flex flex-wrap items-center gap-2 text-xs text-center">
+                    <div class="bg-white rounded-xl px-3 py-2 border border-gray-200">
+                        <span class="iconify inline text-green-500" data-icon="solar:wallet-money-bold" data-width="16"></span><br>현금
+                    </div>
+                    <span class="text-gray-400">&rarr;</span>
+                    <div class="bg-white rounded-xl px-3 py-2 border border-gray-200">
+                        <span class="iconify inline text-blue-500" data-icon="solar:box-bold" data-width="16"></span><br>재고 구매
+                    </div>
+                    <span class="text-gray-400">&rarr;</span>
+                    <div class="bg-white rounded-xl px-3 py-2 border border-gray-200">
+                        <span class="iconify inline text-amber-500" data-icon="solar:archive-bold" data-width="16"></span><br>재고 보유
+                    </div>
+                    <span class="text-gray-400">&rarr;</span>
+                    <div class="bg-white rounded-xl px-3 py-2 border border-gray-200">
+                        <span class="iconify inline text-red-500" data-icon="solar:cart-large-bold" data-width="16"></span><br>판매
+                    </div>
+                    <span class="text-gray-400">&rarr;</span>
+                    <div class="bg-white rounded-xl px-3 py-2 border border-gray-200">
+                        <span class="iconify inline text-green-500" data-icon="solar:hand-money-bold" data-width="16"></span><br>현금 수금
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-3">서비스기업은 "재고 구매 &rarr; 보유" 과정이 없어서 사이클이 짧아요.</p>
+            </div>
+        </div>
+
+        <!-- 손익 구조 & 수익성 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">손익 구조와 수익성 비율</h3>
+
+            <div class="formula-box rounded-xl p-5 mb-4">
+                <p class="text-sm font-medium text-gray-800 space-y-1">
+                    <span class="block">Revenue - <strong>COGS</strong> = <span class="text-blue-600 font-bold">Gross Profit</span></span>
+                    <span class="block">Gross Profit - <strong>Operating Expenses</strong> = <span class="text-indigo-600 font-bold">Operating Profit</span></span>
+                    <span class="block">Operating Profit - Interest - Tax = <span class="text-green-600 font-bold">Net Profit</span></span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-3 mb-4">
+                <div class="bg-blue-50 rounded-xl p-4 text-center">
+                    <p class="text-xs text-blue-600 font-medium mb-1">Gross Margin</p>
+                    <p class="text-sm font-bold text-blue-800">Gross Profit / Revenue</p>
+                    <p class="text-xs text-gray-500 mt-1">물건 팔아서 남긴 마진</p>
+                </div>
+                <div class="bg-indigo-50 rounded-xl p-4 text-center">
+                    <p class="text-xs text-indigo-600 font-medium mb-1">OP Margin</p>
+                    <p class="text-sm font-bold text-indigo-800">Operating Profit / Revenue</p>
+                    <p class="text-xs text-gray-500 mt-1">영업으로 남긴 마진</p>
+                </div>
+                <div class="bg-green-50 rounded-xl p-4 text-center">
+                    <p class="text-xs text-green-600 font-medium mb-1">NP Margin</p>
+                    <p class="text-sm font-bold text-green-800">Net Profit / Revenue</p>
+                    <p class="text-xs text-gray-500 mt-1">최종 순이익 마진</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Perpetual vs Periodic -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">
+                <span class="iconify inline text-primary" data-icon="solar:database-bold" data-width="18"></span>
+                Perpetual vs Periodic System
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="border-2 border-blue-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-blue-700 mb-3">Perpetual (계속기록법)</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-blue-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            매 거래마다 재고 & COGS 즉시 업데이트
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-blue-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            실시간으로 재고 잔고를 알 수 있음
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-blue-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            요즘 대부분 기업이 사용 (바코드/POS)
+                        </li>
+                    </ul>
+                </div>
+                <div class="border-2 border-amber-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-amber-700 mb-3">Periodic (실지재고조사법)</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-amber-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            기말에 실사(실제 세어보기)해서 COGS 계산
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-amber-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            중간에는 재고 잔고를 모름
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="iconify text-amber-400 mt-0.5 shrink-0" data-icon="solar:check-circle-bold" data-width="16"></span>
+                            소규모 사업체에서 주로 사용
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="formula-box rounded-xl p-5 mb-6">
+                <p class="text-sm font-semibold text-amber-800 mb-2">Periodic System COGS 계산</p>
+                <p class="text-sm text-gray-700 font-mono">
+                    Beginning Inventory + Purchases - Ending Inventory = <strong>COGS</strong>
+                </p>
+                <p class="text-xs text-gray-500 mt-1">BI + P - EI = COGS (기초재고 + 매입 - 기말재고 = 매출원가)</p>
+            </div>
+
+            <h4 class="font-medium text-gray-900 mb-3">판매 시 분개 - Perpetual System (2개 동시 기록!)</h4>
+            <div class="bg-gray-50 rounded-2xl p-5 font-mono text-sm mb-6">
+                <p class="text-gray-500 text-xs mb-2">판매 기록:</p>
+                <p class="text-gray-700">&nbsp;&nbsp;Dr. Accounts Receivable &nbsp;&nbsp;xxx</p>
+                <p class="text-gray-700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cr. Sales Revenue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxx</p>
+                <p class="text-gray-500 text-xs mt-3 mb-2">원가 동시 기록:</p>
+                <p class="text-gray-700">&nbsp;&nbsp;Dr. Cost of Goods Sold &nbsp;&nbsp;xxx</p>
+                <p class="text-gray-700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cr. Inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xxx</p>
+            </div>
+        </div>
+
+        <!-- Sales Returns, Discounts -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+            <h3 class="font-semibold text-gray-900 mb-4">반품, 할인, 매입할인</h3>
+
+            <div class="space-y-4 mb-6">
+                <div class="bg-red-50 rounded-xl p-4">
+                    <p class="text-sm font-medium text-red-700 mb-1">Sales Returns & Allowances (매출반품/에누리)</p>
+                    <p class="text-sm text-gray-600">고객이 물건을 돌려보내거나 하자 제품 할인. 매출에서 차감하는 계정이에요.</p>
+                </div>
+                <div class="bg-orange-50 rounded-xl p-4">
+                    <p class="text-sm font-medium text-orange-700 mb-1">Sales Discounts (매출할인)</p>
+                    <p class="text-sm text-gray-600 mb-2">빨리 결제하면 깎아주는 것. 외상 매출을 빨리 회수하려는 목적이에요.</p>
+                    <div class="accent-box rounded-lg p-3">
+                        <p class="text-xs font-bold text-gray-800 mb-1">"1/10, n/30" 이 뭔 뜻이야?</p>
+                        <p class="text-xs text-gray-600">10일 안에 갚으면 1% 할인, 아니면 30일 안에 전액 결제하라는 뜻!</p>
+                        <p class="text-xs text-gray-500 mt-1">"2/10, n/30" = 10일 안에 내면 2% 할인</p>
+                    </div>
+                </div>
+                <div class="bg-blue-50 rounded-xl p-4">
+                    <p class="text-sm font-medium text-blue-700 mb-1">Purchase Discounts (매입할인)</p>
+                    <p class="text-sm text-gray-600">우리가 물건 사올 때 빨리 갚으면 받는 할인이에요. 재고원가를 줄이는 효과!</p>
+                </div>
+            </div>
+
+            <h4 class="font-medium text-gray-900 mb-3">Income Statement 핵심 항목</h4>
+            <div class="bg-gray-50 rounded-2xl p-5 text-sm">
+                <div class="space-y-1.5">
+                    <div class="flex justify-between"><span class="text-gray-600">Sales Revenue</span><span class="text-gray-400">xxx</span></div>
+                    <div class="flex justify-between text-red-500"><span>&nbsp;&nbsp;(-) Sales Returns & Allowances</span><span>(xx)</span></div>
+                    <div class="flex justify-between text-red-500"><span>&nbsp;&nbsp;(-) Sales Discounts</span><span>(xx)</span></div>
+                    <div class="flex justify-between font-medium border-t border-gray-200 pt-1"><span>= Net Sales</span><span>xxx</span></div>
+                    <div class="flex justify-between text-red-500"><span>(-) Cost of Goods Sold</span><span>(xx)</span></div>
+                    <div class="flex justify-between font-bold text-blue-700 border-t border-gray-200 pt-1"><span>= Gross Profit</span><span>xxx</span></div>
+                    <div class="flex justify-between text-red-500"><span>(-) Operating Expenses</span><span>(xx)</span></div>
+                    <div class="flex justify-between font-bold text-green-700 border-t border-gray-200 pt-1"><span>= Net Income</span><span>xxx</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: Ch.7 Fraud, Internal Control, Cash -->
+    <!-- ============================================ -->
+    <section id="sec3">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-red-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-red-600" data-icon="solar:shield-warning-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">부정, 내부통제, 현금</h2>
+                <p class="text-sm text-gray-400">Ch.7 Fraud, Internal Control, and Cash</p>
+            </div>
+        </div>
+
+        <!-- Fraud Triangle -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">Fraud Triangle (부정 삼각형)</h3>
+            <p class="text-sm text-gray-600 mb-6">부정(fraud)이 발생하려면 세 가지가 동시에 있어야 해요. 하나라도 없앨 수 있으면 부정을 예방할 수 있어요!</p>
+
+            <div class="flex justify-center mb-6">
+                <div class="relative w-72 h-64">
+                    <!-- Triangle visualization -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-red-100 border-2 border-red-300 rounded-2xl px-4 py-3 text-center">
+                        <span class="iconify text-red-500 mx-auto" data-icon="solar:danger-triangle-bold" data-width="24"></span>
+                        <p class="text-xs font-bold text-red-700 mt-1">Opportunity</p>
+                        <p class="text-[10px] text-gray-500">기회 (통제 허점)</p>
+                    </div>
+                    <div class="absolute bottom-0 left-0 bg-amber-100 border-2 border-amber-300 rounded-2xl px-4 py-3 text-center">
+                        <span class="iconify text-amber-500 mx-auto" data-icon="solar:wallet-bold" data-width="24"></span>
+                        <p class="text-xs font-bold text-amber-700 mt-1">Financial Pressure</p>
+                        <p class="text-[10px] text-gray-500">재정적 압박</p>
+                    </div>
+                    <div class="absolute bottom-0 right-0 bg-purple-100 border-2 border-purple-300 rounded-2xl px-4 py-3 text-center">
+                        <span class="iconify text-purple-500 mx-auto" data-icon="solar:chat-round-bold" data-width="24"></span>
+                        <p class="text-xs font-bold text-purple-700 mt-1">Rationalization</p>
+                        <p class="text-[10px] text-gray-500">합리화 (자기 정당화)</p>
+                    </div>
+                    <!-- Lines -->
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 288 256">
+                        <line x1="144" y1="65" x2="60" y2="175" stroke="#e5e7eb" stroke-width="2" stroke-dasharray="6,4"/>
+                        <line x1="144" y1="65" x2="228" y2="175" stroke="#e5e7eb" stroke-width="2" stroke-dasharray="6,4"/>
+                        <line x1="60" y1="200" x2="228" y2="200" stroke="#e5e7eb" stroke-width="2" stroke-dasharray="6,4"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Internal Control -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">Internal Control (내부통제)</h3>
+
+            <div class="mb-6">
+                <p class="text-sm font-medium text-gray-700 mb-3">내부통제 목적 4가지</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-blue-50 rounded-xl p-3 text-xs text-center">
+                        <span class="iconify text-blue-500 mx-auto" data-icon="solar:shield-check-bold" data-width="20"></span>
+                        <p class="font-medium text-blue-700 mt-1">자산 보호</p>
+                        <p class="text-gray-500">Safeguard Assets</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-3 text-xs text-center">
+                        <span class="iconify text-green-500 mx-auto" data-icon="solar:document-bold" data-width="20"></span>
+                        <p class="font-medium text-green-700 mt-1">신뢰성 있는 기록</p>
+                        <p class="text-gray-500">Reliable Records</p>
+                    </div>
+                    <div class="bg-amber-50 rounded-xl p-3 text-xs text-center">
+                        <span class="iconify text-amber-500 mx-auto" data-icon="solar:chart-bold" data-width="20"></span>
+                        <p class="font-medium text-amber-700 mt-1">운영 효율성</p>
+                        <p class="text-gray-500">Operational Efficiency</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-3 text-xs text-center">
+                        <span class="iconify text-purple-500 mx-auto" data-icon="solar:scale-bold" data-width="20"></span>
+                        <p class="font-medium text-purple-700 mt-1">법규 준수</p>
+                        <p class="text-gray-500">Compliance with Laws</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-sm font-medium text-gray-700 mb-3">내부통제 5요소 (COSO Framework)</p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <span class="w-6 h-6 bg-primary text-white rounded-lg flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                        <div><span class="font-medium">Control Environment</span> - 통제 환경 (경영진의 톤)</div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <span class="w-6 h-6 bg-primary text-white rounded-lg flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                        <div><span class="font-medium">Risk Assessment</span> - 위험 평가</div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <span class="w-6 h-6 bg-primary text-white rounded-lg flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                        <div><span class="font-medium">Control Activities</span> - 통제 활동 (가장 중요!)</div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <span class="w-6 h-6 bg-primary text-white rounded-lg flex items-center justify-center text-xs font-bold shrink-0">4</span>
+                        <div><span class="font-medium">Information & Communication</span> - 정보와 소통</div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+                        <span class="w-6 h-6 bg-primary text-white rounded-lg flex items-center justify-center text-xs font-bold shrink-0">5</span>
+                        <div><span class="font-medium">Monitoring</span> - 모니터링</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Activities - EXAM POINT -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border-2 border-red-200 mb-6">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="px-2.5 py-1 bg-red-100 text-red-600 rounded-lg text-xs font-bold">EXAM POINT</span>
+                <h3 class="font-semibold text-gray-900">Control Activities 핵심 원칙 5가지</h3>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-gray-800 mb-2">1. Establishment of Responsibility (책임 확립)</p>
+                    <p class="text-sm text-gray-600">한 업무에 한 사람만 책임지게 해야 해요. 여러 명이 담당하면 아무도 책임 안 져요.</p>
+                </div>
+
+                <div class="border-2 border-red-200 bg-red-50/30 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-red-700 mb-2">
+                        <span class="iconify inline" data-icon="solar:star-bold" data-width="16"></span>
+                        2. Segregation of Duties (직무 분리) - 가장 중요!
+                    </p>
+                    <p class="text-sm text-gray-600 mb-3">기록하는 사람과 실물을 보관하는 사람을 분리해야 해요!</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white rounded-xl p-3 text-center text-xs">
+                            <span class="iconify text-blue-500 mx-auto" data-icon="solar:pen-bold" data-width="20"></span>
+                            <p class="font-medium mt-1">기록 담당</p>
+                            <p class="text-gray-400">Record Keeping</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 text-center text-xs">
+                            <span class="iconify text-green-500 mx-auto" data-icon="solar:safe-square-bold" data-width="20"></span>
+                            <p class="font-medium mt-1">실물 보관</p>
+                            <p class="text-gray-400">Physical Custody</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-red-600 mt-3 font-medium">이 둘이 같은 사람이면 돈을 빼돌리고 장부도 조작할 수 있어요!</p>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-gray-800 mb-2">3. Physical Controls (물리적 통제)</p>
+                    <p class="text-sm text-gray-600">금고, CCTV, 잠금장치, 접근 제한 등 물리적 보안 수단이에요.</p>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-gray-800 mb-2">4. Independent Internal Verification (독립적 내부 검증)</p>
+                    <p class="text-sm text-gray-600">담당자가 아닌 다른 사람이 주기적으로 기록을 확인해요.</p>
+                </div>
+
+                <div class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-gray-800 mb-2">5. Human Resource Controls (인적 통제)</p>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        <span class="px-2.5 py-1 bg-gray-100 rounded-lg text-xs">Bonding (신원보증보험)</span>
+                        <span class="px-2.5 py-1 bg-gray-100 rounded-lg text-xs">업무 순환 (Job Rotation)</span>
+                        <span class="px-2.5 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs font-medium">강제 2주 연속 휴가!</span>
+                        <span class="px-2.5 py-1 bg-gray-100 rounded-lg text-xs">Background Check</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">2주 연속 쉬게 하면 그동안 부정을 숨기기 어렵거든요. 대리인이 이상한 걸 발견할 수 있어요!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash Reporting -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+            <h3 class="font-semibold text-gray-900 mb-4">
+                <span class="iconify inline text-green-600" data-icon="solar:wallet-money-bold" data-width="18"></span>
+                Cash Reporting (현금 보고)
+            </h3>
+
+            <div class="space-y-4">
+                <div class="key-box rounded-xl p-4">
+                    <p class="text-sm font-medium text-green-800 mb-1">현금(Cash)의 정의</p>
+                    <p class="text-sm text-gray-600">지폐, 동전, 수표, 당좌예금, 보통예금 등 즉시 사용 가능한 것. B/S에서 유동자산의 <strong>맨 처음</strong>에 표시돼요.</p>
+                </div>
+                <div class="accent-box rounded-xl p-4">
+                    <p class="text-sm font-medium text-blue-800 mb-1">Cash Equivalents (현금성 자산)</p>
+                    <p class="text-sm text-gray-600"><strong>3개월 이내 만기</strong>인 고유동성 단기투자. 예: 3개월 이내 만기 국채, 양도성예금증서(CD), 머니마켓펀드 등.</p>
+                </div>
+                <div class="bg-amber-50 rounded-xl p-4 border-l-4 border-amber-400">
+                    <p class="text-sm font-medium text-amber-800 mb-1">Restricted Cash (제한된 현금)</p>
+                    <p class="text-sm text-gray-600">특정 목적에 묶여서 자유롭게 쓸 수 없는 현금. 예: 채무 상환 적립금, 공장 건설 기금 등. 별도 표시해야 해요.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: Ch.6 Inventories -->
+    <!-- ============================================ -->
+    <section id="sec4">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-amber-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-amber-600" data-icon="solar:box-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">재고자산</h2>
+                <p class="text-sm text-gray-400">Ch.6 Inventories</p>
+            </div>
+        </div>
+
+        <!-- 재고 분류 -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">재고 분류</h3>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-blue-50 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-blue-700 mb-2">상기업 (Merchandiser)</p>
+                    <p class="text-sm text-gray-600 mb-2">계정 1개면 충분!</p>
+                    <div class="bg-white rounded-lg px-3 py-2 text-xs font-medium text-blue-800">Merchandise Inventory (상품)</div>
+                </div>
+                <div class="bg-amber-50 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-amber-700 mb-2">제조업 (Manufacturer)</p>
+                    <p class="text-sm text-gray-600 mb-2">계정 3개 필요!</p>
+                    <div class="space-y-1.5">
+                        <div class="bg-white rounded-lg px-3 py-2 text-xs font-medium text-amber-800">Raw Materials (원재료)</div>
+                        <div class="bg-white rounded-lg px-3 py-2 text-xs font-medium text-amber-800">Work-in-Process (재공품)</div>
+                        <div class="bg-white rounded-lg px-3 py-2 text-xs font-medium text-amber-800">Finished Goods (완제품)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-box rounded-xl p-4 mb-6">
+                <p class="text-sm font-medium text-green-800 mb-1">Physical Inventory가 필요한 이유</p>
+                <p class="text-sm text-gray-600">장부 재고와 실제 재고는 다를 수 있어요 (도난, 파손, 수량 오류 등). 그래서 실제로 세어봐야 해요!</p>
+            </div>
+        </div>
+
+        <!-- FOB & Consignment -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">소유권 판단: FOB & Consignment</h3>
+
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="border-2 border-blue-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-blue-700 mb-2">FOB Shipping Point</p>
+                    <p class="text-sm text-gray-600 mb-2">물건이 <strong>출발지를 떠나는 순간</strong> 소유권이 구매자에게 넘어가요.</p>
+                    <p class="text-xs text-blue-600">운송 중 물건 = 구매자 재고!</p>
+                    <p class="text-xs text-gray-400 mt-1">운임: 구매자 부담</p>
+                </div>
+                <div class="border-2 border-green-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-green-700 mb-2">FOB Destination</p>
+                    <p class="text-sm text-gray-600 mb-2">물건이 <strong>도착지에 도착해야</strong> 소유권이 구매자에게 넘어가요.</p>
+                    <p class="text-xs text-green-600">운송 중 물건 = 판매자 재고!</p>
+                    <p class="text-xs text-gray-400 mt-1">운임: 판매자 부담</p>
+                </div>
+            </div>
+
+            <div class="accent-box rounded-xl p-4">
+                <p class="text-sm font-medium text-indigo-800 mb-1">Consignment (위탁판매)</p>
+                <p class="text-sm text-gray-600">물건을 다른 곳에 맡겨서 팔게 하는 거예요. 팔리기 전까지 소유권은 <strong>위탁자(consignor)</strong>에게 있어요!</p>
+            </div>
+        </div>
+
+        <!-- Cost Flow Assumptions -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-6">
+            <h3 class="font-semibold text-gray-900 mb-4">
+                <span class="iconify inline text-primary" data-icon="solar:sort-bold" data-width="18"></span>
+                Cost Flow Assumptions (원가 흐름 가정)
+            </h3>
+
+            <div class="space-y-4 mb-6">
+                <div class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-gray-800 mb-2">1. Specific Identification (개별법)</p>
+                    <p class="text-sm text-gray-600">개별 물건마다 원가를 추적. 고가 상품(보석, 자동차)에 적합.</p>
+                </div>
+                <div class="border-2 border-blue-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-blue-700 mb-2">2. FIFO (First-In, First-Out / 선입선출)</p>
+                    <p class="text-sm text-gray-600 mb-2">먼저 산 것부터 먼저 팔렸다고 가정해요. 실제 물건 흐름과 가장 비슷!</p>
+                    <div class="warn-box rounded-lg p-3 text-xs">
+                        <p class="font-bold text-red-700 mb-1">인플레이션 시 FIFO의 특징:</p>
+                        <p class="text-gray-600">오래된(싼) 재고부터 COGS에 잡히니까 &rarr; COGS 낮음 &rarr; <strong>EI(기말재고) 높음 &rarr; NI(순이익) 높음</strong> &rarr; 세금 많이 냄!</p>
+                    </div>
+                </div>
+                <div class="border-2 border-green-200 rounded-2xl p-5">
+                    <p class="text-sm font-bold text-green-700 mb-2">3. Average-Cost (평균법)</p>
+                    <p class="text-sm text-gray-600 mb-2">가중평균 단가로 COGS와 EI를 계산해요.</p>
+                    <div class="key-box rounded-lg p-3 text-xs">
+                        <p class="font-bold text-green-700 mb-1">인플레이션 시 Average의 특징:</p>
+                        <p class="text-gray-600">FIFO보다 COGS 높음 &rarr; <strong>EI, NI 모두 FIFO보다 낮음</strong> &rarr; 세금에 유리!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box rounded-xl p-5 mb-6">
+                <p class="text-sm font-semibold text-amber-800 mb-2">인플레이션 시 비교 요약</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-xs text-gray-500">
+                                <th class="text-left py-1 pr-4"></th>
+                                <th class="text-center py-1 px-3">COGS</th>
+                                <th class="text-center py-1 px-3">Ending Inventory</th>
+                                <th class="text-center py-1 px-3">Net Income</th>
+                                <th class="text-center py-1 px-3">세금</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray-200">
+                                <td class="py-2 pr-4 font-medium text-blue-700">FIFO</td>
+                                <td class="text-center py-2 px-3">낮음</td>
+                                <td class="text-center py-2 px-3 font-medium">높음 &uarr;</td>
+                                <td class="text-center py-2 px-3 font-medium">높음 &uarr;</td>
+                                <td class="text-center py-2 px-3 text-red-500">많이 냄</td>
+                            </tr>
+                            <tr class="border-t border-gray-200">
+                                <td class="py-2 pr-4 font-medium text-green-700">Average</td>
+                                <td class="text-center py-2 px-3">높음</td>
+                                <td class="text-center py-2 px-3">낮음 &darr;</td>
+                                <td class="text-center py-2 px-3">낮음 &darr;</td>
+                                <td class="text-center py-2 px-3 text-green-500">유리!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- LCNRV & Turnover -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+            <div class="space-y-4">
+                <div class="warn-box rounded-xl p-5">
+                    <p class="text-sm font-bold text-red-700 mb-2">LCNRV (Lower of Cost or Net Realizable Value)</p>
+                    <p class="text-sm text-gray-600 mb-2">재고는 원가와 순실현가능가치(NRV) 중 <strong>낮은 금액</strong>으로 보고해요.</p>
+                    <p class="text-xs text-gray-500">NRV = 예상 판매가 - 예상 판매비용. 보수주의 원칙! 손실은 빨리 인식.</p>
+                </div>
+                <div class="formula-box rounded-xl p-5">
+                    <p class="text-sm font-bold text-amber-800 mb-2">Inventory Turnover (재고회전율)</p>
+                    <p class="text-sm text-gray-700 font-mono mb-2">
+                        Inventory Turnover = <strong>COGS / Average Inventory</strong>
+                    </p>
+                    <p class="text-xs text-gray-500">재고가 얼마나 빨리 팔리는지 보여줘요. 높을수록 재고 관리가 효율적!</p>
+                    <p class="text-xs text-gray-500 mt-1">Days in Inventory = 365 / Inventory Turnover (재고 보유 일수)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 5: 산업별 재무 특성 -->
+    <!-- ============================================ -->
+    <section id="sec5">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-teal-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-teal-600" data-icon="solar:buildings-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">산업별 재무 특성</h2>
+                <p class="text-sm text-gray-400">Industry Financial Characteristics</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+            <div class="space-y-4">
+                <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="iconify text-slate-600" data-icon="solar:gas-station-bold" data-width="24"></span>
+                        <p class="text-sm font-bold text-slate-800">CAPEX 큰 산업 (석유, 통신)</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">유형자산(PPE)이 B/S에서 큰 비중을 차지해요.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-slate-200">PPE 비중 높음</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-slate-200">감가상각비 핵심</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-slate-200">이자비용 큼</span>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 rounded-2xl p-5 border border-amber-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="iconify text-amber-600" data-icon="solar:bottle-bold" data-width="24"></span>
+                        <p class="text-sm font-bold text-amber-800">장기 숙성 산업 (증류주)</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">위스키 같은 증류주는 재고가 <strong>25-30년</strong> 동안 묶여 있을 수 있어요!</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-amber-200">재고 보유 기간 초장기</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-amber-200">현금 회수 매우 느림</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-amber-200">자본 많이 필요</span>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 rounded-2xl p-5 border border-purple-200">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="iconify text-purple-600" data-icon="solar:laptop-bold" data-width="24"></span>
+                        <p class="text-sm font-bold text-purple-800">서비스 산업</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">재고가 거의 없어요. 인건비가 가장 큰 비용이에요.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-purple-200">재고 거의 없음</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-purple-200">인건비 핵심</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg text-xs border border-purple-200">Operating Cycle 짧음</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- QUIZ SECTION -->
+    <!-- ============================================ -->
+    <section id="secQuiz">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-violet-100 rounded-2xl flex items-center justify-center">
+                <span class="iconify text-violet-600" data-icon="solar:pen-new-square-bold" data-width="22"></span>
+            </div>
+            <div>
+                <h2 class="text-xl font-bold text-gray-900">Quiz</h2>
+                <p class="text-sm text-gray-400">10문항 / 60% 이상 통과</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100" id="quizContainer">
+            <div id="quizQuestions" class="space-y-8">
+
+                <!-- Q1 -->
+                <div class="quiz-item" data-answer="2">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q1.</span> Gross Profit(매출총이익) 계산식으로 올바른 것은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm transition-colors" data-idx="1">
+                            Revenue - Operating Expenses
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm transition-colors" data-idx="2">
+                            Net Sales - Cost of Goods Sold
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm transition-colors" data-idx="3">
+                            Revenue - Interest - Tax
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm transition-colors" data-idx="4">
+                            Operating Profit - Tax
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q2 -->
+                <div class="quiz-item" data-answer="3">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q2.</span> Perpetual inventory system의 특징으로 올바른 것은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            기말에만 재고를 조사한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            Purchase 계정을 사용한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            매 거래마다 재고와 COGS를 업데이트한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            소규모 사업체에서 주로 사용한다
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q3 -->
+                <div class="quiz-item" data-answer="1">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q3.</span> Periodic system에서 COGS 계산식은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            Beginning Inventory + Purchases - Ending Inventory
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            Ending Inventory + Purchases - Beginning Inventory
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            Revenue - Gross Profit
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            Net Sales - Operating Expenses
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q4 -->
+                <div class="quiz-item" data-answer="2">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q4.</span> Net Profit(순이익)이 Balance Sheet에 미치는 영향은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            부채가 증가한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            이익잉여금(Retained Earnings)이 증가한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            자본금(Paid-in Capital)이 증가한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            자산만 증가하고 자본은 변하지 않는다
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q5 -->
+                <div class="quiz-item" data-answer="4">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q5.</span> Fraud Triangle에 포함되지 <strong class="text-red-500">않는</strong> 것은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            Opportunity (기회)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            Financial Pressure (재정적 압박)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            Rationalization (합리화)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            Management Responsibility (경영 책임)
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q6 -->
+                <div class="quiz-item" data-answer="3">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q6.</span> Segregation of Duties의 핵심 원칙은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            한 사람이 모든 업무를 책임진다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            외부 감사인이 매일 확인한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            기록 담당과 실물 보관 담당을 분리한다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            모든 직원에게 금고 접근 권한을 준다
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q7 -->
+                <div class="quiz-item" data-answer="2">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q7.</span> Cash Equivalents(현금성 자산)의 조건으로 올바른 것은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            만기 1년 이내의 투자
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            만기 3개월 이내의 고유동성 단기투자
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            만기 6개월 이내의 투자
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            만기에 관계없이 유동적인 투자
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q8 -->
+                <div class="quiz-item" data-answer="1">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q8.</span> FOB Shipping Point에서 운송 중인 상품의 소유권은 누구에게 있나요?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            구매자 (Buyer)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            판매자 (Seller)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            운송회사 (Carrier)
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            소유권이 아직 정해지지 않음
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q9 -->
+                <div class="quiz-item" data-answer="3">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q9.</span> 인플레이션 시 FIFO와 Average-cost를 비교한 설명으로 올바른 것은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            FIFO의 COGS가 Average보다 높다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            Average의 Net Income이 FIFO보다 높다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            FIFO의 Ending Inventory가 Average보다 높다
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            두 방법의 결과는 동일하다
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+
+                <!-- Q10 -->
+                <div class="quiz-item" data-answer="2">
+                    <p class="text-sm font-semibold text-gray-900 mb-3">
+                        <span class="text-primary">Q10.</span> Inventory Turnover(재고회전율) 계산식은?
+                    </p>
+                    <div class="space-y-2">
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="1">
+                            Net Sales / Average Inventory
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="2">
+                            Cost of Goods Sold / Average Inventory
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="3">
+                            Average Inventory / Cost of Goods Sold
+                        </button>
+                        <button class="quiz-option w-full text-left px-4 py-3 border-2 border-gray-200 rounded-xl text-sm" data-idx="4">
+                            Revenue / Ending Inventory
+                        </button>
+                    </div>
+                    <p class="quiz-feedback text-sm mt-2 hidden"></p>
+                </div>
+            </div>
+
+            <!-- Submit & Results -->
+            <div class="mt-10 text-center">
+                <button id="submitQuiz" onclick="submitQuiz()" class="px-8 py-3.5 bg-primary text-white rounded-2xl font-semibold text-sm hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
+                    <span class="iconify inline mr-1" data-icon="solar:check-read-bold" data-width="18"></span>
+                    채점하기
+                </button>
+            </div>
+
+            <div id="quizResult" class="hidden mt-8">
+                <div class="rounded-2xl p-6 text-center" id="resultBox">
+                    <p class="text-4xl font-bold mb-2" id="scoreText"></p>
+                    <p class="text-sm" id="scoreMessage"></p>
+                    <button onclick="resetQuiz()" class="mt-4 px-6 py-2.5 bg-white border-2 border-gray-200 rounded-xl text-sm font-medium hover:border-primary hover:text-primary transition-colors">
+                        다시 풀기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="border-t border-gray-100 py-8 text-center text-xs text-gray-400">
+    <p>Corporate Financial Reporting - SKKU PMBA 2026</p>
+</footer>
+
+<script>
+    // Progress bar scroll tracking
+    const sections = ['sec1', 'sec2', 'sec3', 'sec4', 'sec5', 'secQuiz'];
+    const progressDots = document.querySelectorAll('.progress-dot');
+
+    function updateProgress() {
+        let current = '';
+        for (const id of sections) {
+            const el = document.getElementById(id);
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                if (rect.top <= 200) current = id;
+            }
+        }
+        progressDots.forEach(dot => {
+            dot.classList.toggle('active', dot.dataset.section === current);
+        });
+    }
+
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
+
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            const offset = 120;
+            const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+    }
+
+    // Quiz Logic
+    const answers = {};
+
+    document.querySelectorAll('.quiz-option').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const item = this.closest('.quiz-item');
+            item.querySelectorAll('.quiz-option').forEach(b => {
+                b.classList.remove('border-primary', 'bg-indigo-50');
+            });
+            this.classList.add('border-primary', 'bg-indigo-50');
+            const qIndex = Array.from(document.querySelectorAll('.quiz-item')).indexOf(item);
+            answers[qIndex] = parseInt(this.dataset.idx);
+        });
+    });
+
+    function submitQuiz() {
+        const items = document.querySelectorAll('.quiz-item');
+        let correct = 0;
+
+        items.forEach((item, idx) => {
+            const correctAnswer = parseInt(item.dataset.answer);
+            const userAnswer = answers[idx];
+            const feedback = item.querySelector('.quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            item.querySelectorAll('.quiz-option').forEach(btn => {
+                const btnIdx = parseInt(btn.dataset.idx);
+                btn.disabled = true;
+                if (btnIdx === correctAnswer) {
+                    btn.classList.add('correct');
+                }
+                if (userAnswer === btnIdx && btnIdx !== correctAnswer) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (userAnswer === correctAnswer) {
+                correct++;
+                feedback.textContent = 'O 정답!';
+                feedback.className = 'quiz-feedback text-sm mt-2 text-green-600 font-medium';
+            } else if (userAnswer === undefined) {
+                feedback.textContent = 'X 답을 선택하지 않았어요.';
+                feedback.className = 'quiz-feedback text-sm mt-2 text-gray-400 font-medium';
+            } else {
+                feedback.textContent = 'X 오답!';
+                feedback.className = 'quiz-feedback text-sm mt-2 text-red-500 font-medium';
+            }
+        });
+
+        const score = Math.round((correct / items.length) * 100);
+        const passed = score >= 60;
+
+        document.getElementById('quizResult').classList.remove('hidden');
+        const resultBox = document.getElementById('resultBox');
+        resultBox.className = passed
+            ? 'rounded-2xl p-6 text-center bg-green-50 border-2 border-green-200'
+            : 'rounded-2xl p-6 text-center bg-red-50 border-2 border-red-200';
+
+        document.getElementById('scoreText').textContent = `${correct} / ${items.length} (${score}%)`;
+        document.getElementById('scoreText').className = passed
+            ? 'text-4xl font-bold mb-2 text-green-700'
+            : 'text-4xl font-bold mb-2 text-red-700';
+
+        document.getElementById('scoreMessage').textContent = passed
+            ? 'Pass! 잘 이해하고 있어요!'
+            : 'Fail... 60% 이상이면 통과예요. 다시 한번 복습해보세요!';
+        document.getElementById('scoreMessage').className = passed
+            ? 'text-sm text-green-600'
+            : 'text-sm text-red-500';
+
+        document.getElementById('submitQuiz').classList.add('hidden');
+    }
+
+    function resetQuiz() {
+        const items = document.querySelectorAll('.quiz-item');
+        items.forEach(item => {
+            item.querySelectorAll('.quiz-option').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('correct', 'wrong', 'border-primary', 'bg-indigo-50');
+            });
+            const feedback = item.querySelector('.quiz-feedback');
+            feedback.classList.add('hidden');
+        });
+        Object.keys(answers).forEach(k => delete answers[k]);
+        document.getElementById('quizResult').classList.add('hidden');
+        document.getElementById('submitQuiz').classList.remove('hidden');
+        scrollToSection('secQuiz');
+    }
+</script>
+
+</body>
+</html>

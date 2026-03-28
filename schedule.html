@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일정 | CFR Study Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Pretendard Variable', 'Pretendard', 'system-ui', 'sans-serif'] },
+      colors: {
+        accent: { DEFAULT: '#3182F6', light: '#EBF3FE', dark: '#1B64DA' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { word-break: keep-all; }
+  html { scroll-behavior: smooth; }
+  .transition-smooth { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
+  .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .cal-cell { min-height: 110px; }
+  @media (max-width: 768px) { .cal-cell { min-height: 80px; } }
+  .pill { font-size: 11px; line-height: 1.3; padding: 3px 7px; border-radius: 6px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; display: block; margin-bottom: 2px; }
+  .pill:hover { transform: scale(1.03); box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 10; position: relative; }
+  .pill-lecture { background: #EBF3FE; color: #1B64DA; border-left: 3px solid #3182F6; }
+  .pill-assignment { background: #ECFDF5; color: #047857; border-left: 3px solid #10B981; }
+  .pill-quiz { background: #FFF7ED; color: #C2410C; border-left: 3px solid #F97316; }
+  .tooltip-box { position: fixed; z-index: 999; background: white; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04); padding: 16px 20px; max-width: 320px; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; }
+  .tooltip-box.show { opacity: 1; }
+</style>
+</head>
+<body class="bg-[#FAFAFA] font-sans text-zinc-800 antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-accent rounded-xl flex items-center justify-center">
+          <iconify-icon icon="solar:book-bold" class="text-white text-sm"></iconify-icon>
+        </div>
+        <span class="font-bold text-lg tracking-tight">CFR Hub</span>
+      </a>
+      <div class="flex items-center gap-1">
+        <a href="lectures.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">강의</a>
+        <a href="assignments.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">과제</a>
+        <a href="quiz.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">퀴즈</a>
+        <a href="schedule.html" class="px-4 py-2 rounded-xl text-sm font-medium text-accent bg-accent-light transition-smooth">일정</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Tooltip -->
+  <div id="tooltip" class="tooltip-box">
+    <div id="tooltip-type" class="text-xs font-bold mb-1"></div>
+    <div id="tooltip-title" class="text-sm font-semibold text-zinc-800 mb-1"></div>
+    <div id="tooltip-desc" class="text-xs text-zinc-500 leading-relaxed"></div>
+  </div>
+
+  <!-- Header -->
+  <section class="pt-28 pb-8 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light text-accent rounded-full text-sm font-semibold mb-5">
+        <iconify-icon icon="solar:calendar-bold" class="text-base"></iconify-icon>
+        SP2 2025 Spring
+      </div>
+      <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight mb-3">학사 일정</h1>
+      <p class="text-zinc-500 text-base">수업기간 3월 24일 (화) ~ 4월 28일 (화) &middot; 최종 마감 5월 3일 (일) &middot; 매주 화요일 19:00-22:20</p>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <section class="px-6 pb-6">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <!-- Legend & Filters -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="toggleFilter('lecture')" id="btn-lecture" class="filter-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-smooth bg-[#EBF3FE] text-[#1B64DA] border-[#3182F6]/20">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#3182F6]"></span>강의
+        </button>
+        <button onclick="toggleFilter('assignment')" id="btn-assignment" class="filter-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-smooth bg-[#ECFDF5] text-[#047857] border-[#10B981]/20">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>과제
+        </button>
+        <button onclick="toggleFilter('quiz')" id="btn-quiz" class="filter-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-smooth bg-[#FFF7ED] text-[#C2410C] border-[#F97316]/20">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#F97316]"></span>퀴즈
+        </button>
+      </div>
+      <!-- View Toggle -->
+      <div class="flex items-center bg-white border border-zinc-200 rounded-xl overflow-hidden">
+        <button onclick="setView('calendar')" id="view-calendar" class="px-4 py-2 text-xs font-semibold flex items-center gap-1.5 transition-smooth bg-accent text-white">
+          <iconify-icon icon="solar:calendar-minimalistic-bold" class="text-sm"></iconify-icon>캘린더
+        </button>
+        <button onclick="setView('list')" id="view-list" class="px-4 py-2 text-xs font-semibold flex items-center gap-1.5 transition-smooth text-zinc-500 hover:text-zinc-700">
+          <iconify-icon icon="solar:list-bold" class="text-sm"></iconify-icon>리스트
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calendar View -->
+  <section id="calendar-view" class="px-6 pb-12">
+    <div class="max-w-6xl mx-auto space-y-8">
+      <!-- Month Navigation -->
+      <div class="flex items-center justify-center gap-4 mb-2">
+        <button onclick="setMonth(2)" id="month-mar" class="px-5 py-2.5 rounded-2xl text-sm font-bold transition-smooth bg-accent text-white">3월 March</button>
+        <button onclick="setMonth(3)" id="month-apr" class="px-5 py-2.5 rounded-2xl text-sm font-bold transition-smooth bg-white text-zinc-600 border border-zinc-200 hover:border-accent hover:text-accent">4월 April</button>
+        <button onclick="setMonth(4)" id="month-may" class="px-5 py-2.5 rounded-2xl text-sm font-bold transition-smooth bg-white text-zinc-600 border border-zinc-200 hover:border-accent hover:text-accent">5월 May</button>
+      </div>
+
+      <!-- Calendar Grid -->
+      <div class="bg-white rounded-3xl border border-zinc-100 shadow-sm overflow-hidden">
+        <!-- Day headers -->
+        <div class="grid grid-cols-7 border-b border-zinc-100">
+          <div class="py-3 text-center text-xs font-bold text-red-400">일</div>
+          <div class="py-3 text-center text-xs font-bold text-zinc-400">월</div>
+          <div class="py-3 text-center text-xs font-bold text-zinc-400">화</div>
+          <div class="py-3 text-center text-xs font-bold text-zinc-400">수</div>
+          <div class="py-3 text-center text-xs font-bold text-zinc-400">목</div>
+          <div class="py-3 text-center text-xs font-bold text-zinc-400">금</div>
+          <div class="py-3 text-center text-xs font-bold text-blue-400">토</div>
+        </div>
+        <!-- Calendar body -->
+        <div id="calendar-body" class="grid grid-cols-7"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- List View -->
+  <section id="list-view" class="px-6 pb-20 hidden">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white rounded-3xl border border-zinc-100 shadow-sm overflow-hidden">
+        <div class="px-7 py-5 border-b border-zinc-100">
+          <h2 class="text-lg font-bold">전체 일정</h2>
+          <p class="text-xs text-zinc-400 mt-1">시간순으로 정렬된 모든 일정입니다</p>
+        </div>
+        <div id="list-body" class="divide-y divide-zinc-50"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-100 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
+          <iconify-icon icon="solar:book-bold" class="text-white text-xs"></iconify-icon>
+        </div>
+        <span class="font-bold text-sm">CFR Study Hub</span>
+      </div>
+      <p class="text-xs text-zinc-400">SKK GSB PMBA &middot; Corporate Financial Reporting &middot; 2025 Spring SP2</p>
+    </div>
+  </footer>
+
+<script>
+// ─── Event Data ───
+const events = [
+  // Lectures (every Tuesday 19:00-22:20)
+  { date: '2026-03-24', type: 'lecture', title: 'Topic 1', desc: 'Merchandising Operations (Ch.5, 7, 6)', time: '19:00-22:20', url: 'lecture1.html' },
+  { date: '2026-03-31', type: 'lecture', title: 'Topic 2', desc: 'Fraud, Internal Control (continued)', time: '19:00-22:20', url: 'lectures.html' },
+  { date: '2026-04-07', type: 'lecture', title: 'Topic 3', desc: 'Inventories (Ch.6) + Receivables (Ch.8)', time: '19:00-22:20', url: 'lectures.html' },
+  { date: '2026-04-14', type: 'lecture', title: 'Topic 4', desc: 'Plant Assets (Ch.9)', time: '19:00-22:20', url: 'lectures.html' },
+  { date: '2026-04-21', type: 'lecture', title: 'Topic 5', desc: 'Liabilities (Ch.10, 11)', time: '19:00-22:20', url: 'lectures.html' },
+  { date: '2026-04-28', type: 'lecture', title: 'Topic 6-8', desc: 'Corporations / Investments / Cash Flows (Ch.12, 13, 14, 15)', time: '19:00-22:20', url: 'lectures.html' },
+
+  // Assignments (due dates - 11:59pm)
+  { date: '2026-03-28', type: 'assignment', title: 'Assignment #1', desc: 'P5-7, CT5-1', time: '11:59pm 마감', url: 'assignments.html#a1' },
+  { date: '2026-04-04', type: 'assignment', title: 'Assignment #2', desc: 'P6-5, P6-7', time: '11:59pm 마감', url: 'assignments.html#a2' },
+  { date: '2026-04-11', type: 'assignment', title: 'Assignment #3', desc: 'P8-3, P8-6, P8-7', time: '11:59pm 마감', url: 'assignments.html#a3' },
+  { date: '2026-04-18', type: 'assignment', title: 'Assignment #4', desc: 'P9-2, P9-5', time: '11:59pm 마감', url: 'assignments.html#a4' },
+  { date: '2026-04-18', type: 'assignment', title: 'Assignment #5', desc: 'P10-1, E11-2, E11-4', time: '11:59pm 마감', url: 'assignments.html#a5' },
+  { date: '2026-04-25', type: 'assignment', title: 'Assignment #6', desc: 'P12-1', time: '11:59pm 마감', url: 'assignments.html#a6' },
+  { date: '2026-04-25', type: 'assignment', title: 'Assignment #7', desc: 'P13-2(a), E13-8', time: '11:59pm 마감', url: 'assignments.html#a7' },
+  { date: '2026-05-02', type: 'assignment', title: 'Assignment #8', desc: 'P14-1, P14-9', time: '11:59pm 마감', url: 'assignments.html#a8' },
+  { date: '2026-05-02', type: 'assignment', title: 'Assignment #9', desc: 'P15-1, P15-2, P15-5', time: '11:59pm 마감', url: 'assignments.html#a9' },
+  { date: '2026-05-02', type: 'assignment', title: 'Case Study', desc: 'Identify the Industry', time: '11:59pm 마감', url: 'assignments.html#case' },
+  { date: '2026-05-02', type: 'assignment', title: 'Trial Test', desc: 'Proctorio 세팅 테스트 (1점)', time: '11:59pm 마감', url: null },
+
+  // Quizzes (Remotely Proctored, 20pts each, available full day)
+  { date: '2026-03-29', type: 'quiz', title: 'Quiz #1', desc: 'Ch.5, 7 (Remotely Proctored, 20pts)', time: '12:00am~11:59pm', url: 'quiz.html' },
+  { date: '2026-04-12', type: 'quiz', title: 'Quiz #2', desc: 'Ch.6, 8 (Remotely Proctored, 20pts)', time: '12:00am~11:59pm', url: 'quiz.html' },
+  { date: '2026-04-19', type: 'quiz', title: 'Quiz #3', desc: 'Ch.9, 10, 11 (Remotely Proctored, 20pts)', time: '12:00am~11:59pm', url: 'quiz.html' },
+  { date: '2026-04-26', type: 'quiz', title: 'Quiz #4', desc: 'Ch.12, 13 (Remotely Proctored, 20pts)', time: '12:00am~11:59pm', url: 'quiz.html' },
+  { date: '2026-05-03', type: 'quiz', title: 'Quiz #5', desc: 'Ch.14, 15 (Remotely Proctored, 20pts)', time: '12:00am~11:59pm', url: 'quiz.html' },
+];
+
+// ─── State ───
+const today = new Date();
+const todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+let currentMonth = today.getMonth(); // 0-indexed: March=2, April=3
+if (currentMonth < 2) currentMonth = 2;
+if (currentMonth > 4) currentMonth = 4;
+
+let filters = { lecture: true, assignment: true, quiz: true };
+let currentView = 'calendar';
+
+// ─── Filter Toggle ───
+function toggleFilter(type) {
+  filters[type] = !filters[type];
+  const btn = document.getElementById('btn-' + type);
+  if (filters[type]) {
+    btn.classList.remove('bg-white', 'text-zinc-400', 'border-zinc-200');
+    if (type === 'lecture') btn.classList.add('bg-[#EBF3FE]', 'text-[#1B64DA]', 'border-[#3182F6]/20');
+    if (type === 'assignment') btn.classList.add('bg-[#ECFDF5]', 'text-[#047857]', 'border-[#10B981]/20');
+    if (type === 'quiz') btn.classList.add('bg-[#FFF7ED]', 'text-[#C2410C]', 'border-[#F97316]/20');
+  } else {
+    btn.classList.add('bg-white', 'text-zinc-400', 'border-zinc-200');
+    btn.classList.remove('bg-[#EBF3FE]', 'text-[#1B64DA]', 'border-[#3182F6]/20', 'bg-[#ECFDF5]', 'text-[#047857]', 'border-[#10B981]/20', 'bg-[#FFF7ED]', 'text-[#C2410C]', 'border-[#F97316]/20');
+  }
+  renderCalendar();
+  renderList();
+}
+
+// ─── View Toggle ───
+function setView(view) {
+  currentView = view;
+  document.getElementById('calendar-view').classList.toggle('hidden', view !== 'calendar');
+  document.getElementById('list-view').classList.toggle('hidden', view !== 'list');
+  const calBtn = document.getElementById('view-calendar');
+  const listBtn = document.getElementById('view-list');
+  if (view === 'calendar') {
+    calBtn.classList.add('bg-accent', 'text-white');
+    calBtn.classList.remove('text-zinc-500');
+    listBtn.classList.remove('bg-accent', 'text-white');
+    listBtn.classList.add('text-zinc-500');
+  } else {
+    listBtn.classList.add('bg-accent', 'text-white');
+    listBtn.classList.remove('text-zinc-500');
+    calBtn.classList.remove('bg-accent', 'text-white');
+    calBtn.classList.add('text-zinc-500');
+  }
+}
+
+// ─── Month Toggle ───
+function setMonth(m) {
+  currentMonth = m;
+  ['month-mar', 'month-apr', 'month-may'].forEach((id, i) => {
+    const btn = document.getElementById(id);
+    if (i + 2 === m) {
+      btn.className = 'px-5 py-2.5 rounded-2xl text-sm font-bold transition-smooth bg-accent text-white';
+    } else {
+      btn.className = 'px-5 py-2.5 rounded-2xl text-sm font-bold transition-smooth bg-white text-zinc-600 border border-zinc-200 hover:border-accent hover:text-accent';
+    }
+  });
+  renderCalendar();
+}
+
+// ─── Tooltip ───
+const tooltipEl = document.getElementById('tooltip');
+const tooltipType = document.getElementById('tooltip-type');
+const tooltipTitle = document.getElementById('tooltip-title');
+const tooltipDesc = document.getElementById('tooltip-desc');
+
+function showTooltip(e, ev) {
+  const typeLabels = { lecture: '강의', assignment: '과제', quiz: '퀴즈' };
+  const typeColors = { lecture: '#3182F6', assignment: '#10B981', quiz: '#F97316' };
+  tooltipType.textContent = typeLabels[ev.type];
+  tooltipType.style.color = typeColors[ev.type];
+  tooltipTitle.textContent = ev.title;
+  tooltipDesc.innerHTML = `<span class="text-zinc-400">${ev.date.replace('2026-','')}</span> &middot; ${ev.time}<br>${ev.desc}`;
+  tooltipEl.classList.add('show');
+  positionTooltip(e);
+}
+
+function positionTooltip(e) {
+  const x = e.clientX + 12;
+  const y = e.clientY + 12;
+  const w = tooltipEl.offsetWidth;
+  const h = tooltipEl.offsetHeight;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  tooltipEl.style.left = (x + w > vw ? x - w - 24 : x) + 'px';
+  tooltipEl.style.top = (y + h > vh ? y - h - 24 : y) + 'px';
+}
+
+function hideTooltip() { tooltipEl.classList.remove('show'); }
+
+document.addEventListener('mousemove', (e) => {
+  if (tooltipEl.classList.contains('show')) positionTooltip(e);
+});
+
+// ─── Render Calendar ───
+function renderCalendar() {
+  const year = 2026;
+  const month = currentMonth; // 0-indexed
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const startDow = firstDay.getDay(); // 0=Sun
+  const daysInMonth = lastDay.getDate();
+
+  // Previous month padding
+  const prevLastDay = new Date(year, month, 0).getDate();
+
+  const body = document.getElementById('calendar-body');
+  body.innerHTML = '';
+
+  // Total cells needed (weeks * 7)
+  const totalCells = Math.ceil((startDow + daysInMonth) / 7) * 7;
+
+  for (let i = 0; i < totalCells; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell border-b border-r border-zinc-50 p-1.5 sm:p-2 relative';
+    if (i % 7 === 0) cell.classList.add('border-l-0');
+
+    let dayNum, isCurrentMonth = true;
+    if (i < startDow) {
+      dayNum = prevLastDay - startDow + i + 1;
+      isCurrentMonth = false;
+    } else if (i >= startDow + daysInMonth) {
+      dayNum = i - startDow - daysInMonth + 1;
+      isCurrentMonth = false;
+    } else {
+      dayNum = i - startDow + 1;
+    }
+
+    // Day number
+    const dayEl = document.createElement('div');
+    const dayDate = isCurrentMonth
+      ? `${year}-${String(month+1).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}`
+      : '';
+
+    const isSunday = i % 7 === 0;
+    const isSaturday = i % 7 === 6;
+    const isToday = dayDate === todayStr;
+
+    if (isToday) {
+      dayEl.innerHTML = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent text-white text-xs font-bold">${dayNum}</span>`;
+    } else {
+      dayEl.className = `text-xs font-semibold mb-1 ${!isCurrentMonth ? 'text-zinc-300' : isSunday ? 'text-red-400' : isSaturday ? 'text-blue-400' : 'text-zinc-600'}`;
+      dayEl.textContent = dayNum;
+    }
+    cell.appendChild(dayEl);
+
+    // Events for this date
+    if (isCurrentMonth && dayDate) {
+      const dayEvents = events.filter(ev => ev.date === dayDate && filters[ev.type]);
+      dayEvents.forEach(ev => {
+        const pill = document.createElement(ev.url ? 'a' : 'span');
+        pill.className = `pill pill-${ev.type}`;
+        if (ev.url) { pill.href = ev.url; pill.style.textDecoration = 'none'; }
+        // Shorten display
+        const short = ev.type === 'lecture' ? ev.title : ev.type === 'quiz' ? ev.title : ev.title.replace('Assignment ', 'A');
+        pill.textContent = short;
+        pill.addEventListener('mouseenter', (e) => showTooltip(e, ev));
+        pill.addEventListener('mouseleave', hideTooltip);
+        cell.appendChild(pill);
+      });
+    }
+
+    body.appendChild(cell);
+  }
+}
+
+// ─── Render List ───
+function renderList() {
+  const listBody = document.getElementById('list-body');
+  listBody.innerHTML = '';
+
+  const filtered = events.filter(ev => filters[ev.type]);
+  filtered.sort((a, b) => a.date.localeCompare(b.date));
+
+  const typeIcons = {
+    lecture: 'solar:notebook-bold',
+    assignment: 'solar:document-text-bold',
+    quiz: 'solar:pen-new-round-bold'
+  };
+  const typeLabels = { lecture: '강의', assignment: '과제', quiz: '퀴즈' };
+  const typeBg = { lecture: 'bg-[#EBF3FE]', assignment: 'bg-[#ECFDF5]', quiz: 'bg-[#FFF7ED]' };
+  const typeText = { lecture: 'text-[#3182F6]', assignment: 'text-[#10B981]', quiz: 'text-[#F97316]' };
+  const typeDot = { lecture: 'bg-[#3182F6]', assignment: 'bg-[#10B981]', quiz: 'bg-[#F97316]' };
+
+  let lastDate = '';
+  filtered.forEach(ev => {
+    const row = document.createElement('div');
+    const dateObj = new Date(ev.date + 'T00:00:00');
+    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+    const dateLabel = `${dateObj.getMonth()+1}/${dateObj.getDate()} (${dayNames[dateObj.getDay()]})`;
+    const isNewDate = ev.date !== lastDate;
+    lastDate = ev.date;
+
+    const isPast = ev.date < todayStr;
+    const isEventToday = ev.date === todayStr;
+
+    row.className = `flex items-start gap-4 px-7 py-4 ${isEventToday ? 'bg-accent/[0.03]' : ''} ${isPast ? 'opacity-60' : ''} ${ev.url ? 'cursor-pointer hover:bg-zinc-50 transition-colors' : ''}`;
+    if (ev.url) row.onclick = () => window.location.href = ev.url;
+    row.innerHTML = `
+      <div class="w-20 flex-shrink-0 pt-0.5">
+        ${isNewDate ? `<div class="text-sm font-bold ${isEventToday ? 'text-accent' : 'text-zinc-700'}">${dateLabel}</div>` : ''}
+      </div>
+      <div class="flex items-start gap-3 flex-1 min-w-0">
+        <div class="w-8 h-8 rounded-xl ${typeBg[ev.type]} flex items-center justify-center flex-shrink-0 mt-0.5">
+          <iconify-icon icon="${typeIcons[ev.type]}" class="${typeText[ev.type]} text-sm"></iconify-icon>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2 mb-0.5">
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold ${typeText[ev.type]}">
+              <span class="w-1.5 h-1.5 rounded-full ${typeDot[ev.type]}"></span>${typeLabels[ev.type]}
+            </span>
+            <span class="text-[10px] text-zinc-400">${ev.time}</span>
+          </div>
+          <div class="text-sm font-semibold text-zinc-800">${ev.title}</div>
+          <div class="text-xs text-zinc-500 mt-0.5">${ev.desc}</div>
+        </div>
+      </div>
+      ${isPast ? '<div class="text-[10px] text-zinc-400 font-medium px-2 py-1 bg-zinc-100 rounded-lg flex-shrink-0">완료</div>' : isEventToday ? '<div class="text-[10px] text-accent font-bold px-2 py-1 bg-accent-light rounded-lg flex-shrink-0">오늘</div>' : ''}
+    `;
+    listBody.appendChild(row);
+  });
+
+  if (filtered.length === 0) {
+    listBody.innerHTML = '<div class="py-16 text-center text-zinc-400 text-sm">표시할 일정이 없습니다</div>';
+  }
+}
+
+// ─── Init ───
+renderCalendar();
+renderList();
+</script>
+
+</body>
+</html>

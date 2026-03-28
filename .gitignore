@@ -1,0 +1,7 @@
+.DS_Store
+*.pptx
+*.pdf
+*.docx
+*.xlsx
+.claude/
+*.output

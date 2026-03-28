@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 | CFR Study Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Pretendard Variable', 'Pretendard', 'system-ui', 'sans-serif'] },
+      colors: {
+        accent: { DEFAULT: '#3182F6', light: '#EBF3FE', dark: '#1B64DA' }
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { word-break: keep-all; }
+  html { scroll-behavior: smooth; }
+  .transition-smooth { transition: all 0.5s cubic-bezier(0.16,1,0.3,1); }
+  .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .modal-overlay { transition: opacity 0.25s ease; }
+  .modal-content { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; }
+  .modal-overlay.hidden { opacity: 0; pointer-events: none; }
+  .modal-overlay.hidden .modal-content { transform: translateY(24px) scale(0.97); opacity: 0; }
+  .key-answer { background: linear-gradient(135deg, #EBF3FE 0%, #DBEAFE 100%); border-left: 4px solid #3182F6; }
+</style>
+</head>
+<body class="bg-[#FAFAFA] font-sans text-zinc-800 antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-zinc-100">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-accent rounded-xl flex items-center justify-center">
+          <iconify-icon icon="solar:book-bold" class="text-white text-sm"></iconify-icon>
+        </div>
+        <span class="font-bold text-lg tracking-tight">CFR Hub</span>
+      </a>
+      <div class="flex items-center gap-1">
+        <a href="lectures.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">강의</a>
+        <a href="assignments.html" class="px-4 py-2 rounded-xl text-sm font-medium text-accent bg-accent-light transition-smooth">과제</a>
+        <a href="quiz.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">퀴즈</a>
+        <a href="schedule.html" class="px-4 py-2 rounded-xl text-sm font-medium text-zinc-600 hover:text-accent hover:bg-accent-light transition-smooth">일정</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="pt-28 pb-12 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light text-accent rounded-full text-sm font-semibold mb-5">
+        <iconify-icon icon="solar:document-text-bold" class="text-base"></iconify-icon>
+        Individual Assignments
+      </div>
+      <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight mb-3">과제 목록 <span class="text-zinc-400 font-bold text-2xl">Assignment List</span></h1>
+      <p class="text-zinc-500 text-lg max-w-2xl">총 9개의 개인 과제와 1개의 그룹 케이스 스터디가 있습니다. 각 과제의 상세 풀이와 답안을 확인하세요.<br><span class="text-sm">9 individual assignments and 1 group case study. View detailed solutions and answers for each.</span></p>
+
+      <!-- Summary Stats -->
+      <div class="flex flex-wrap gap-4 mt-8">
+        <div class="flex items-center gap-3 px-5 py-3 bg-white rounded-2xl border border-zinc-100">
+          <div class="w-10 h-10 bg-accent-light rounded-xl flex items-center justify-center">
+            <iconify-icon icon="solar:clipboard-list-bold" class="text-accent text-lg"></iconify-icon>
+          </div>
+          <div>
+            <div class="text-xs text-zinc-400 font-medium">총 과제 Total</div>
+            <div class="text-lg font-bold">10개</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 px-5 py-3 bg-white rounded-2xl border border-zinc-100">
+          <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center">
+            <iconify-icon icon="solar:check-circle-bold" class="text-green-500 text-lg"></iconify-icon>
+          </div>
+          <div>
+            <div class="text-xs text-zinc-400 font-medium">비중 Weight</div>
+            <div class="text-lg font-bold">20%</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 px-5 py-3 bg-white rounded-2xl border border-zinc-100">
+          <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+            <iconify-icon icon="solar:calendar-bold" class="text-amber-500 text-lg"></iconify-icon>
+          </div>
+          <div>
+            <div class="text-xs text-zinc-400 font-medium">마감 Deadline</div>
+            <div class="text-lg font-bold">5/2 최종 Final</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Assignments Grid -->
+  <section class="px-6 pb-20">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid gap-5">
+
+        <!-- Assignment #1 -->
+        <div id="a1" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">1</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #1</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.5</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P5-7, CT5-1 &mdash; Inventory Methods (FIFO vs Average-cost)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 3/28 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-zinc-100 text-zinc-500 rounded-md text-xs font-medium">제출 완료 Submitted</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal1')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #2 -->
+        <div id="a2" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">2</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #2</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.6</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P6-5, P6-7 &mdash; Inventories (Periodic FIFO vs Average)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/4 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-accent-light text-accent rounded-md text-xs font-medium">이번 주 마감 Due This Week</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal2')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #3 -->
+        <div id="a3" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">3</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #3</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.8</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P8-3, P8-6, P8-7 &mdash; Receivables (Bad Debts, Notes Receivable)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/11 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal3')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #4 -->
+        <div id="a4" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">4</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #4</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.9</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P9-2, P9-5 &mdash; Plant Assets (Depreciation Methods, Transactions)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/18 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal4')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #5 -->
+        <div id="a5" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">5</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #5</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.10, 11</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P10-1, E11-2, E11-4 &mdash; Current Liabilities &amp; Bonds</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/18 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal5')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #6 -->
+        <div id="a6" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">6</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #6</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.12</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P12-1 &mdash; Share Transactions (Ordinary &amp; Preference Shares)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/25 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal6')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #7 -->
+        <div id="a7" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">7</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #7</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.13</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P13-2(a), E13-8 &mdash; Investments (Fair Value &amp; Equity Method)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 4/25 (금) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal7')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #8 -->
+        <div id="a8" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">8</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #8</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.14</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P14-1, P14-9 &mdash; Statement of Cash Flows (Indirect Method)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 5/2 (토) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal8')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Assignment #9 -->
+        <div id="a9" class="bg-white rounded-2xl border border-zinc-100 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent-light rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span class="text-accent font-extrabold text-lg">9</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Assignment #9</h3>
+                  <span class="px-2.5 py-0.5 bg-zinc-100 text-zinc-500 rounded-lg text-xs font-semibold">Ch.15</span>
+                </div>
+                <p class="text-zinc-500 text-sm">P15-1, P15-2, P15-5 &mdash; Financial Analysis (Ratios, Vertical Analysis)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 5/2 (토) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-blue-50 text-blue-500 rounded-md text-xs font-medium">예정 Upcoming</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modal9')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+        <!-- Group Case Study -->
+        <div id="case" class="bg-gradient-to-br from-accent/5 to-blue-50 rounded-2xl border border-accent/20 p-6 hover-lift transition-smooth">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center flex-shrink-0">
+                <iconify-icon icon="solar:users-group-rounded-bold" class="text-white text-xl"></iconify-icon>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-lg">Group Case Study</h3>
+                  <span class="px-2.5 py-0.5 bg-accent/10 text-accent rounded-lg text-xs font-semibold">Team</span>
+                </div>
+                <p class="text-zinc-500 text-sm">Case Study: Identify the Industry &mdash; 재무제표 분석을 통한 산업 식별 (Industry Identification through Financial Statement Analysis)</p>
+                <div class="flex items-center gap-3 mt-2">
+                  <span class="inline-flex items-center gap-1 text-xs text-zinc-400">
+                    <iconify-icon icon="solar:calendar-linear" class="text-sm"></iconify-icon>
+                    마감 Due: 5/2 (토) 11:59pm
+                  </span>
+                  <span class="px-2 py-0.5 bg-amber-50 text-amber-600 rounded-md text-xs font-medium">그룹 과제 Group Project</span>
+                </div>
+              </div>
+            </div>
+            <button onclick="openModal('modalCase')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl text-sm font-semibold hover:bg-accent-dark transition-smooth flex-shrink-0">
+              <iconify-icon icon="solar:eye-bold" class="text-base"></iconify-icon>
+              풀이 보기 View Solution
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-100 bg-white py-8 px-6">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-sm text-zinc-400">
+        <iconify-icon icon="solar:book-bold" class="text-accent"></iconify-icon>
+        CFR Study Hub &copy; 2025
+      </div>
+      <div class="flex items-center gap-4 text-sm text-zinc-400">
+        <a href="index.html" class="hover:text-accent transition-smooth">홈 Home</a>
+        <a href="lectures.html" class="hover:text-accent transition-smooth">강의 Lectures</a>
+        <a href="assignments.html" class="hover:text-accent transition-smooth">과제 Assignments</a>
+        <a href="quiz.html" class="hover:text-accent transition-smooth">퀴즈 Quiz</a>
+        <a href="schedule.html" class="hover:text-accent transition-smooth">일정 Schedule</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ MODALS ============ -->
+
+  <!-- Modal #1 -->
+  <div id="modal1" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal1')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #1 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P5-7, CT5-1 (Ch.5)</p>
+        </div>
+        <button onclick="closeModal('modal1')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <!-- P5-7 -->
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P5-7: Tran Apparel
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Condensed income statement를 FIFO와 Average-cost (periodic) 방법으로 작성<br><span class="text-zinc-400">Prepare a condensed income statement using FIFO and Average-cost (periodic) methods</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>Periodic method에서 COGS = Beginning Inventory + Purchases - Ending Inventory</li>
+                <li><strong>FIFO:</strong> 가장 오래된 원가가 COGS로 먼저 배분 (oldest costs allocated to COGS first)</li>
+                <li><strong>Average:</strong> 가중평균 단가를 계산하여 적용 (calculate and apply weighted-average unit cost)</li>
+                <li>Ending Inventory를 각 방법에 맞게 계산 (calculate ending inventory per each method)</li>
+                <li>Gross Profit = Net Sales - COGS</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div><span class="text-zinc-500">FIFO Net Income:</span> <strong class="text-accent">&euro;106,386</strong></div>
+                <div><span class="text-zinc-500">Average Net Income:</span> <strong class="text-accent">&euro;104,907</strong></div>
+              </div>
+            </div>
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">Management Questions</p>
+              <ul class="text-sm text-zinc-600 space-y-1.5">
+                <li>&bull; <strong>FIFO</strong>가 더 의미 있는 재고 가치를 제공 (current costs 반영) &mdash; FIFO provides more meaningful inventory valuation (reflects current costs)</li>
+                <li>&bull; <strong>Average</strong>가 실제 물리적 흐름에 더 가까움 &mdash; Average is closer to actual physical flow of goods</li>
+                <li>&bull; <strong>Average</strong>가 더 많은 현금 보유 (낮은 소득 = 낮은 세금) &mdash; Average retains more cash (lower income = lower taxes)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- CT5-1 -->
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            CT5-1: TSMC Financial Reporting
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">TSMC의 consolidated income statement를 활용한 merchandising operations 분석<br><span class="text-zinc-400">Analyze merchandising operations using TSMC's consolidated income statement</span></p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm text-zinc-600">TSMC의 실제 재무제표를 바탕으로 매출원가 구조, 매출총이익률 등을 분석합니다. 반도체 제조업의 특성을 재무제표를 통해 이해하는 것이 핵심입니다.<br><span class="text-zinc-400">Analyze COGS structure and gross profit margin based on TSMC's actual financial statements. The key is understanding semiconductor manufacturing characteristics through financial statements.</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal1')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #2 -->
+  <div id="modal2" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal2')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #2 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P6-5, P6-7 (Ch.6)</p>
+        </div>
+        <button onclick="closeModal('modal2')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P6-5: Senta Ltd
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Periodic method를 사용하여 FIFO와 Average 방법으로 ending inventory, COGS, gross profit, gross profit rate 계산<br><span class="text-zinc-400">Calculate ending inventory, COGS, gross profit, and gross profit rate using FIFO and Average under periodic method</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>10월의 purchase/sale 데이터를 정리 (organize October purchase/sale data)</li>
+                <li>Goods available for sale = BI + Purchases (수량 &amp; 금액 / units &amp; amounts)</li>
+                <li><strong>FIFO:</strong> EI는 가장 최근 매입분으로 구성 (EI consists of most recent purchases)</li>
+                <li><strong>Average:</strong> 총 금액 / 총 수량 = 가중평균 단가 (total amount / total units = weighted-avg unit cost)</li>
+                <li>Gross Profit Rate = Gross Profit / Net Sales &times; 100</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P6-7: Tudor Living
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">FIFO vs Average-cost의 income statement 영향 비교. Comparative condensed income statements 작성<br><span class="text-zinc-400">Compare income statement impact of FIFO vs Average-cost. Prepare comparative condensed income statements</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>두 방법 각각의 COGS와 EI를 계산 (calculate COGS and EI for each method)</li>
+                <li>Comparative format으로 나란히 비교 (side-by-side comparison in comparative format)</li>
+                <li>Sales - COGS = Gross Profit</li>
+                <li>Operating Expenses를 차감하여 Net Income 산출 (deduct operating expenses to derive net income)</li>
+                <li>물가 변동 시 두 방법의 차이점 분석 (analyze differences between methods when prices change)</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 포인트 (Key Point)</p>
+              <p class="text-sm text-zinc-600">물가 상승 시: FIFO는 더 높은 Net Income, Average는 중간 수준의 결과를 보여줌<br><span class="text-zinc-400">During rising prices: FIFO shows higher Net Income, Average shows intermediate results</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal2')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #3 -->
+  <div id="modal3" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal3')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #3 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P8-3, P8-6, P8-7 (Ch.8)</p>
+        </div>
+        <button onclick="closeModal('modal3')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P8-3: Sycamore AG
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Aging schedule를 이용한 대손충당금 설정 및 조정 분개<br><span class="text-zinc-400">Set up allowance for doubtful accounts using aging schedule and prepare adjusting entries</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>Aging schedule: 각 연령별 잔액에 추정 대손율 적용 (apply estimated uncollectible rate to each age group balance)</li>
+                <li>Required Balance = 각 구간별 (잔액 &times; 대손율)의 합계 (sum of balance x rate for each bracket)</li>
+                <li>Bad Debt Expense = Required Balance - 기존 Allowance 잔액 (required balance minus existing allowance balance)</li>
+                <li>Adjusting Entry: Dr. Bad Debt Expense / Cr. Allowance for Doubtful Accounts</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">Bad Debt Expense:</span> <strong class="text-accent">&euro;26,610</strong></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P8-6: Anping Enterprises
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Notes receivable 거래 및 이자 계산 (360일 기준)<br><span class="text-zinc-400">Notes receivable transactions and interest calculation (360-day basis)</span></p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+              <li>Interest = Principal &times; Rate &times; Time/360</li>
+              <li>Note 수취 시 (when receiving note): Dr. Notes Receivable / Cr. Accounts Receivable</li>
+              <li>이자 수취 시 (when collecting interest): Dr. Cash / Cr. Notes Receivable, Interest Revenue</li>
+              <li>부도 시 (when note is dishonored): Dr. Accounts Receivable / Cr. Notes Receivable</li>
+            </ol>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P8-7: Harter Wholesalers
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Comprehensive receivables 문제 (comprehensive receivables problem)</p>
+          <div class="key-answer rounded-xl p-4">
+            <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+            <p class="text-sm"><span class="text-zinc-500">Total Receivables:</span> <strong class="text-accent">NT$14,550</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal3')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #4 -->
+  <div id="modal4" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal4')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #4 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P9-2, P9-5 (Ch.9)</p>
+        </div>
+        <button onclick="closeModal('modal4')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P9-2: Freeman Transportation
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">3가지 감가상각 방법 비교 (Straight-line, Declining-balance, Units-of-activity)<br><span class="text-zinc-400">Compare three depreciation methods</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li><strong>Straight-line:</strong> (Cost - Residual Value) / Useful Life</li>
+                <li><strong>Declining-balance:</strong> Book Value &times; (2 / Useful Life)</li>
+                <li><strong>Units-of-activity:</strong> (Cost - Residual) / Total Units &times; Annual Units</li>
+                <li>Depreciable amount = Cost - Salvage value</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">2029 Depreciation:</span> <strong class="text-accent">&pound;11,400</strong></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P9-5: Jimenez Enterprises
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Plant asset 거래 (취득, 매각, 폐기)<br><span class="text-zinc-400">Plant asset transactions (acquisition, disposal, retirement)</span></p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+              <li>취득 (Acquisition): 모든 취득 관련 원가를 자산에 포함 (include all acquisition-related costs in asset)</li>
+              <li>매각 (Disposal): Book Value = Cost - Accumulated Depreciation</li>
+              <li>Gain/Loss = Sale Price - Book Value</li>
+              <li>폐기 (Retirement): Book Value 전액을 Loss로 인식 (recognize entire book value as loss)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal4')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #5 -->
+  <div id="modal5" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal5')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #5 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P10-1, E11-2, E11-4 (Ch.10, 11)</p>
+        </div>
+        <button onclick="closeModal('modal5')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P10-1: Chuan-Kwang Luggage
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">유동부채 (Current Liabilities): Sales tax (8%), Warranty (7%), Notes payable</p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+              <li><strong>Sales Tax:</strong> Sales &times; Tax Rate = Sales Tax Payable</li>
+              <li><strong>Warranty:</strong> Sales &times; Warranty Rate = Warranty Expense</li>
+              <li><strong>Notes Payable:</strong> Interest = Principal &times; Rate &times; Time</li>
+              <li>각 항목별 분개 작성 (prepare journal entries for recognition &amp; payment of each item)</li>
+            </ol>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            E11-2: Nasreen Company
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">사채 할인 발행 (at 97) 분개<br><span class="text-zinc-400">Journal entries for bond issued at discount (at 97)</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>발행가 (Issue price) = Face Value &times; 97% (할인 발행 / issued at discount)</li>
+                <li>Discount = Face Value - Issue Price</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">분개 (Journal Entry)</p>
+              <div class="text-sm text-zinc-600 font-mono bg-white/50 rounded-lg p-3">
+                Dr. Cash (Face &times; 0.97)<br>
+                Dr. Discount on Bonds Payable<br>
+                &nbsp;&nbsp;&nbsp;Cr. Bonds Payable (Face Value)
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            E11-4: Miley Consulting
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">사채 상환 (at 101)<br><span class="text-zinc-400">Bond redemption (at 101)</span></p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+              <li>Redemption Price = Face Value &times; 101%</li>
+              <li>Carrying Value = Face Value - Unamortized Discount (또는/or + Premium)</li>
+              <li>Loss on Redemption = Redemption Price - Carrying Value</li>
+              <li>Dr. Bonds Payable, Loss / Cr. Cash</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal5')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #6 -->
+  <div id="modal6" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal6')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #6 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P12-1 (Ch.12)</p>
+        </div>
+        <button onclick="closeModal('modal6')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P12-1: Gao Limited
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">주식 거래: Ordinary shares, Preference shares, 토지 대가 주식 발행, 서비스 대가 주식 발행<br><span class="text-zinc-400">Share transactions: Ordinary &amp; Preference shares, shares issued for land, shares issued for services</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li><strong>Ordinary Shares at HK$48:</strong><br>Dr. Cash (shares &times; $48) / Cr. Share Capital-Ordinary, Share Premium-Ordinary</li>
+                <li><strong>Preference Shares at HK$1,050:</strong><br>Dr. Cash (shares &times; $1,050) / Cr. Share Capital-Preference, Share Premium-Preference</li>
+                <li><strong>토지 대가 발행 (Shares issued for land):</strong> 토지는 주식의 공정가치로 기록 (land recorded at fair value of shares)<br>Dr. Land / Cr. Share Capital, Share Premium</li>
+                <li><strong>서비스 대가 발행 (Shares issued for services):</strong> 서비스는 주식의 공정가치로 기록 (services recorded at fair value of shares)<br>Dr. Service Expense / Cr. Share Capital, Share Premium</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 포인트 (Key Point)</p>
+              <ul class="text-sm text-zinc-600 space-y-1">
+                <li>&bull; Par Value 초과분은 항상 Share Premium 계정으로 &mdash; Amount exceeding par value always goes to Share Premium</li>
+                <li>&bull; 비현금 거래: 자산/서비스는 주식의 FV 또는 자산의 FV 중 신뢰성 높은 것 사용 &mdash; Non-cash transactions: use the more reliable FV (shares or asset/service)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal6')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #7 -->
+  <div id="modal7" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal7')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #7 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P13-2(a), E13-8 (Ch.13)</p>
+        </div>
+        <button onclick="closeModal('modal7')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P13-2(a): Stefan SE
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">투자 거래: 주식 매수/매도, 채권, 배당금, 공정가치 조정<br><span class="text-zinc-400">Investment transactions: share purchase/sale, bonds, dividends, fair value adjustments</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li><strong>매수 (Purchase):</strong> Dr. Share Investments / Cr. Cash</li>
+                <li><strong>배당금 수취 (Dividend received):</strong> Dr. Cash / Cr. Dividend Revenue</li>
+                <li><strong>매도 (Sale):</strong> Dr. Cash / Cr. Share Investments, Gain (or Dr. Loss)</li>
+                <li><strong>공정가치 조정 (Fair value adjustment):</strong> Dr/Cr. Fair Value Adjustment / Cr/Dr. Unrealized Gain/Loss</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">Gain on Sale of Share Investments:</span> <strong class="text-accent">&euro;600</strong></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            E13-8: Chicory Cosmetics &amp; Frank Ltd
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Fair Value Method vs Equity Method 비교</p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ul class="text-sm text-zinc-600 space-y-1.5">
+              <li>&bull; <strong>Fair Value Method (&lt;20% 지분/ownership):</strong> 배당금만 수익 인식, 기말 공정가치 조정 &mdash; recognize only dividends as revenue; adjust to fair value at year-end</li>
+              <li>&bull; <strong>Equity Method (20-50% 지분/ownership):</strong> 피투자회사 순이익의 지분율만큼 수익 인식, 배당금은 투자 감소 &mdash; recognize share of investee's net income as revenue; dividends reduce investment</li>
+              <li>&bull; Equity Method: Dr. Share Investments / Cr. Revenue from Investment (순이익 지분 / share of net income)</li>
+              <li>&bull; Equity Method: Dr. Cash / Cr. Share Investments (배당금 수취 / dividends received)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal7')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #8 -->
+  <div id="modal8" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal8')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #8 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P14-1, P14-9 (Ch.14)</p>
+        </div>
+        <button onclick="closeModal('modal8')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P14-1: Cash Flow Classification
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">현금흐름 분류 (Cash Flow Classification): Operating / Investing / Financing / Non-cash</p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">분류 가이드 (Classification Guide)</p>
+            <ul class="text-sm text-zinc-600 space-y-1.5">
+              <li>&bull; <strong>Operating:</strong> 영업활동 관련 (매출, 매입, 급여, 이자, 세금) &mdash; business operations (sales, purchases, wages, interest, taxes)</li>
+              <li>&bull; <strong>Investing:</strong> 장기자산 취득/처분 (설비, 투자증권 매매) &mdash; long-term asset acquisition/disposal (equipment, investment securities)</li>
+              <li>&bull; <strong>Financing:</strong> 자본/차입 관련 (사채 발행/상환, 주식 발행, 배당금 지급) &mdash; capital/borrowing (bond issuance/redemption, share issuance, dividend payments)</li>
+              <li>&bull; <strong>Non-cash:</strong> 현금 이동 없는 투자/재무 활동 (주석 공시) &mdash; investing/financing without cash movement (disclosed in notes)</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P14-9: Sinjh SA
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">현금흐름표 작성 (간접법)<br><span class="text-zinc-400">Prepare Statement of Cash Flows (Indirect Method)</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">간접법 접근 (Indirect Method Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>Net Income에서 시작 (start from Net Income)</li>
+                <li>(+) 비현금 비용 (감가상각비, 대손상각비 등) &mdash; add back non-cash expenses (depreciation, bad debt expense, etc.)</li>
+                <li>(+/-) 영업 자산/부채의 증감 &mdash; adjust for changes in operating assets/liabilities</li>
+                <li>유동자산 증가 (-), 유동부채 증가 (+) &mdash; current asset increase (-), current liability increase (+)</li>
+                <li>유동자산 감소 (+), 유동부채 감소 (-) &mdash; current asset decrease (+), current liability decrease (-)</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">Cash from Operations:</span> <strong class="text-accent">&euro;184,350</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal8')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal #9 -->
+  <div id="modal9" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modal9')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Assignment #9 풀이 Solution</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">P15-1, P15-2, P15-5 (Ch.15)</p>
+        </div>
+        <button onclick="closeModal('modal9')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P15-1: Lionel vs Barrymore
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">Vertical Analysis (수직 분석) 비교 &mdash; Comparative vertical analysis</p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li>Income Statement: 각 항목을 Net Sales 대비 %로 표시 (express each item as % of Net Sales)</li>
+                <li>Balance Sheet: 각 항목을 Total Assets 대비 %로 표시 (express each item as % of Total Assets)</li>
+                <li>두 회사의 수직 분석 결과를 비교 (compare vertical analysis results of both companies)</li>
+                <li>Return on Assets = Net Income / Average Total Assets</li>
+              </ol>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">Lionel Return on Assets:</span> <strong class="text-accent">16.6%</strong></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P15-2: Larker Tool SA
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">10가지 재무비율 계산 (Calculate 10 financial ratios)</p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">주요 비율 (Key Ratios)</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-zinc-600">
+                <div>&bull; Current Ratio = CA / CL</div>
+                <div>&bull; EPS = NI / Weighted Avg Shares</div>
+                <div>&bull; ROE = NI / Avg Equity</div>
+                <div>&bull; ROA = NI / Avg Total Assets</div>
+                <div>&bull; Debt to Assets = Total Debt / Total Assets</div>
+                <div>&bull; P/E Ratio = Market Price / EPS</div>
+                <div>&bull; Gross Profit Rate = GP / Net Sales</div>
+                <div>&bull; Profit Margin = NI / Net Sales</div>
+                <div>&bull; Asset Turnover = Net Sales / Avg Total Assets</div>
+                <div>&bull; Payout Ratio = Dividends / NI</div>
+              </div>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
+              <p class="text-sm"><span class="text-zinc-500">Return on Assets:</span> <strong class="text-accent">21.3%</strong></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
+            P15-5: Target vs Walmart
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">종합 비율 비교 (11개 비율) &mdash; Comprehensive ratio comparison (11 ratios)</p>
+          <div class="bg-zinc-50 rounded-xl p-4">
+            <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
+            <ul class="text-sm text-zinc-600 space-y-1.5">
+              <li>&bull; 두 회사의 실제 재무데이터를 사용하여 11개 비율 계산 (calculate 11 ratios using actual financial data of both companies)</li>
+              <li>&bull; Liquidity ratios: Current ratio, Receivables turnover, Inventory turnover</li>
+              <li>&bull; Profitability ratios: Profit margin, ROA, ROE, Gross profit rate, Asset turnover</li>
+              <li>&bull; Solvency ratios: Debt to assets, Times interest earned</li>
+              <li>&bull; 각 비율을 기반으로 어떤 회사가 더 나은 성과를 보이는지 비교 분석 (compare which company performs better based on each ratio)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modal9')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Case Study -->
+  <div id="modalCase" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onclick="closeModalOutside(event, 'modalCase')">
+    <div class="modal-content bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white rounded-t-3xl border-b border-zinc-100 px-7 py-5 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-xl">Group Case Study 가이드 Guide</h2>
+          <p class="text-sm text-zinc-400 mt-0.5">HBC: Identify the Industry</p>
+        </div>
+        <button onclick="closeModal('modalCase')" class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-smooth">
+          <iconify-icon icon="solar:close-circle-bold" class="text-zinc-400 text-xl"></iconify-icon>
+        </button>
+      </div>
+      <div class="px-7 py-6 space-y-6">
+        <div>
+          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+            <iconify-icon icon="solar:users-group-rounded-bold" class="text-accent"></iconify-icon>
+            케이스 스터디 개요 (Case Study Overview)
+          </h3>
+          <p class="text-sm text-zinc-600 mb-3">재무제표의 구조와 비율을 분석하여 각 회사가 속한 산업을 식별하는 과제입니다.<br><span class="text-zinc-400">Identify the industry each company belongs to by analyzing financial statement structure and ratios.</span></p>
+          <div class="space-y-3">
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">접근 방법 (Approach)</p>
+              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
+                <li><strong>Balance Sheet 구조 분석:</strong> 자산 구성비 (유동 vs 비유동), 재고 비중, 매출채권 비중 &mdash; Analyze asset composition (current vs non-current), inventory weight, receivables weight</li>
+                <li><strong>Income Statement 분석:</strong> 매출총이익률, 영업이익률, 비용 구조 &mdash; Gross profit margin, operating margin, cost structure</li>
+                <li><strong>주요 비율 비교 (Key Ratio Comparison):</strong> Current ratio, Asset turnover, Inventory turnover, ROA, Debt ratio</li>
+                <li><strong>산업별 특성 파악 (Industry Characteristics):</strong></li>
+              </ol>
+            </div>
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-semibold text-zinc-700 mb-2">산업별 재무 특성 (Financial Characteristics by Industry)</p>
+              <ul class="text-sm text-zinc-600 space-y-2">
+                <li>&bull; <strong>제조업 (Manufacturing):</strong> 높은 유형자산 비중, 중간 수준 재고, 상대적으로 낮은 매출총이익률 &mdash; high PPE, moderate inventory, relatively low gross margin</li>
+                <li>&bull; <strong>소매업 (Retail):</strong> 높은 재고 비중, 높은 Asset Turnover, 낮은 이익률 &mdash; high inventory, high asset turnover, low profit margin</li>
+                <li>&bull; <strong>서비스업 (Services):</strong> 낮은 재고, 높은 무형자산/인건비, 높은 이익률 &mdash; low inventory, high intangibles/labor costs, high profit margin</li>
+                <li>&bull; <strong>금융업 (Finance):</strong> 특수한 자산 구조 (대출, 투자증권), 이자 수익 중심 &mdash; unique asset structure (loans, investment securities), interest revenue-driven</li>
+                <li>&bull; <strong>IT/소프트웨어 (IT/Software):</strong> 높은 무형자산, 높은 R&amp;D, 높은 매출총이익률 &mdash; high intangibles, high R&amp;D, high gross margin</li>
+              </ul>
+            </div>
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">핵심 팁 (Key Tips)</p>
+              <ul class="text-sm text-zinc-600 space-y-1">
+                <li>&bull; Inventory/Total Assets 비율로 제조업 vs 서비스업 구분 &mdash; use this ratio to distinguish manufacturing vs services</li>
+                <li>&bull; PPE/Total Assets 비율로 자본집약도 판단 &mdash; use this ratio to assess capital intensity</li>
+                <li>&bull; Gross Profit Margin으로 산업 특성 파악 &mdash; identify industry characteristics via gross profit margin</li>
+                <li>&bull; Asset Turnover와 Profit Margin의 trade-off 분석 &mdash; analyze the trade-off between asset turnover and profit margin</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="px-7 py-5 border-t border-zinc-100">
+        <button onclick="closeModal('modalCase')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal JS -->
+  <script>
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => {
+        modal.style.opacity = '1';
+        modal.querySelector('.modal-content').style.transform = 'translateY(0) scale(1)';
+        modal.querySelector('.modal-content').style.opacity = '1';
+      });
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.style.opacity = '0';
+      const content = modal.querySelector('.modal-content');
+      content.style.transform = 'translateY(24px) scale(0.97)';
+      content.style.opacity = '0';
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 250);
+    }
+
+    function closeModalOutside(event, id) {
+      if (event.target === event.currentTarget) {
+        closeModal(id);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(modal => {
+          closeModal(modal.id);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
