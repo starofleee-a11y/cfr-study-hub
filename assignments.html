@@ -425,52 +425,301 @@ tailwind.config = {
         </button>
       </div>
       <div class="px-7 py-6 space-y-6">
-        <!-- P5-7 -->
+
+        <!-- ===== P5-7: Tran Apparel ===== -->
         <div>
-          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <h3 class="font-bold text-lg mb-1 flex items-center gap-2">
             <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
             P5-7: Tran Apparel
           </h3>
-          <p class="text-sm text-zinc-600 mb-3">Condensed income statement를 FIFO와 Average-cost (periodic) 방법으로 작성<br><span class="text-zinc-400">Prepare a condensed income statement using FIFO and Average-cost (periodic) methods</span></p>
-          <div class="space-y-3">
-            <div class="bg-zinc-50 rounded-xl p-4">
-              <p class="text-sm font-semibold text-zinc-700 mb-2">풀이 접근법 (Solution Approach)</p>
-              <ol class="text-sm text-zinc-600 space-y-1.5 list-decimal list-inside">
-                <li>Periodic method에서 COGS = Beginning Inventory + Purchases - Ending Inventory</li>
-                <li><strong>FIFO:</strong> 가장 오래된 원가가 COGS로 먼저 배분 (oldest costs allocated to COGS first)</li>
-                <li><strong>Average:</strong> 가중평균 단가를 계산하여 적용 (calculate and apply weighted-average unit cost)</li>
-                <li>Ending Inventory를 각 방법에 맞게 계산 (calculate ending inventory per each method)</li>
-                <li>Gross Profit = Net Sales - COGS</li>
-              </ol>
-            </div>
-            <div class="key-answer rounded-xl p-4">
-              <p class="text-sm font-bold text-accent mb-2">핵심 정답 (Key Answer)</p>
-              <div class="grid grid-cols-2 gap-3 text-sm">
-                <div><span class="text-zinc-500">FIFO Net Income:</span> <strong class="text-accent">&euro;106,386</strong></div>
-                <div><span class="text-zinc-500">Average Net Income:</span> <strong class="text-accent">&euro;104,907</strong></div>
+          <p class="text-sm text-zinc-600 mb-4">Condensed income statement를 FIFO와 Average-cost (periodic) 방법으로 작성<br><span class="text-zinc-400">Prepare a condensed income statement using FIFO and Average-cost (periodic) methods</span></p>
+
+          <div class="space-y-4">
+
+            <!-- Step 0: Given Data -->
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
+              <p class="text-sm font-bold text-blue-800 mb-2">📋 Given Data (주어진 자료)</p>
+              <div class="text-xs text-zinc-700 space-y-1 font-mono">
+                <p>Net Sales: &euro;740,000</p>
+                <p>Beginning Inventory: 200 units @ &euro;18 = &euro;3,600</p>
+                <p>Purchases during the year:</p>
+                <div class="ml-4 space-y-0.5">
+                  <p>Purchase 1: 700 units @ &euro;20 = &euro;14,000</p>
+                  <p>Purchase 2: 800 units @ &euro;22 = &euro;17,600</p>
+                  <p>Purchase 3: 300 units @ &euro;25 = &euro;7,500</p>
+                </div>
+                <p class="pt-1">Total available: 2,000 units / Cost of goods available: &euro;42,700</p>
+                <p>Units sold: 1,600 units → <strong>Ending Inventory: 400 units</strong></p>
+                <p>Operating Expenses: &euro;148,000 &nbsp;|&nbsp; Tax Rate: 30%</p>
               </div>
             </div>
+
+            <!-- Step 1: FIFO Calculation -->
             <div class="bg-zinc-50 rounded-xl p-4">
-              <p class="text-sm font-semibold text-zinc-700 mb-2">Management Questions</p>
-              <ul class="text-sm text-zinc-600 space-y-1.5">
-                <li>&bull; <strong>FIFO</strong>가 더 의미 있는 재고 가치를 제공 (current costs 반영) &mdash; FIFO provides more meaningful inventory valuation (reflects current costs)</li>
-                <li>&bull; <strong>Average</strong>가 실제 물리적 흐름에 더 가까움 &mdash; Average is closer to actual physical flow of goods</li>
-                <li>&bull; <strong>Average</strong>가 더 많은 현금 보유 (낮은 소득 = 낮은 세금) &mdash; Average retains more cash (lower income = lower taxes)</li>
+              <p class="text-sm font-bold text-zinc-800 mb-2">Step 1️⃣ FIFO Method — Ending Inventory 계산</p>
+              <p class="text-xs text-zinc-500 mb-2">FIFO: 먼저 산 것이 먼저 팔림 → 기말재고는 가장 최근 매입분으로 구성<br>First-in, first-out → Ending inventory consists of most recent purchases</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs font-mono space-y-1">
+                <p class="text-zinc-500">// Ending Inventory (400 units) = latest purchases</p>
+                <p>Purchase 3: 300 units × &euro;25 = &euro;7,500</p>
+                <p>Purchase 2: 100 units × &euro;22 = &euro;2,200</p>
+                <p class="border-t border-zinc-200 pt-1 font-bold">Ending Inventory = <span class="text-accent">&euro;9,700</span></p>
+                <p class="pt-1 text-zinc-500">// COGS = Cost of Goods Available - Ending Inventory</p>
+                <p class="font-bold">COGS = &euro;42,700 − &euro;9,700 = <span class="text-accent">&euro;33,000</span></p>
+              </div>
+            </div>
+
+            <!-- Step 2: Average-cost Calculation -->
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-bold text-zinc-800 mb-2">Step 2️⃣ Average-Cost Method — Ending Inventory 계산</p>
+              <p class="text-xs text-zinc-500 mb-2">가중평균 단가를 구한 뒤, 기말재고와 COGS에 동일하게 적용<br>Calculate weighted-average unit cost, then apply to both ending inventory and COGS</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs font-mono space-y-1">
+                <p class="text-zinc-500">// Weighted-Average Unit Cost</p>
+                <p>&euro;42,700 ÷ 2,000 units = <strong>&euro;21.35 per unit</strong></p>
+                <p class="pt-1 text-zinc-500">// Ending Inventory</p>
+                <p>400 units × &euro;21.35 = <span class="text-accent font-bold">&euro;8,540</span></p>
+                <p class="pt-1 text-zinc-500">// COGS</p>
+                <p>1,600 units × &euro;21.35 = <span class="text-accent font-bold">&euro;34,160</span></p>
+                <p class="text-zinc-400 pt-1">검증: &euro;8,540 + &euro;34,160 = &euro;42,700 ✓</p>
+              </div>
+            </div>
+
+            <!-- Step 3: Income Statement - FIFO -->
+            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
+              <p class="text-sm font-bold text-emerald-800 mb-2">Step 3️⃣ Condensed Income Statement — FIFO</p>
+              <div class="text-xs font-mono space-y-0.5">
+                <p class="font-bold text-center mb-1">Tran Apparel</p>
+                <p class="text-center text-zinc-500 mb-2">Condensed Income Statement (FIFO)</p>
+                <div class="grid grid-cols-[1fr_auto] gap-x-4 gap-y-0.5">
+                  <p>Net Sales</p> <p class="text-right">&euro;740,000</p>
+                  <p>Cost of Goods Sold</p> <p class="text-right underline">(33,000)</p>
+                  <p class="font-bold">Gross Profit</p> <p class="text-right font-bold">707,000</p>
+                  <p>Operating Expenses</p> <p class="text-right underline">(148,000)</p>
+                  <p class="font-bold">Income Before Tax</p> <p class="text-right font-bold">559,000</p>
+                  <p>Income Tax Expense (30%)</p> <p class="text-right underline">(167,700)</p>
+                  <p class="font-bold text-accent border-t border-emerald-300 pt-1">Net Income</p> <p class="text-right font-bold text-accent border-t border-emerald-300 pt-1">&euro;391,300</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Income Statement - Average -->
+            <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
+              <p class="text-sm font-bold text-amber-800 mb-2">Step 4️⃣ Condensed Income Statement — Average-Cost</p>
+              <div class="text-xs font-mono space-y-0.5">
+                <p class="font-bold text-center mb-1">Tran Apparel</p>
+                <p class="text-center text-zinc-500 mb-2">Condensed Income Statement (Average-Cost)</p>
+                <div class="grid grid-cols-[1fr_auto] gap-x-4 gap-y-0.5">
+                  <p>Net Sales</p> <p class="text-right">&euro;740,000</p>
+                  <p>Cost of Goods Sold</p> <p class="text-right underline">(34,160)</p>
+                  <p class="font-bold">Gross Profit</p> <p class="text-right font-bold">705,840</p>
+                  <p>Operating Expenses</p> <p class="text-right underline">(148,000)</p>
+                  <p class="font-bold">Income Before Tax</p> <p class="text-right font-bold">557,840</p>
+                  <p>Income Tax Expense (30%)</p> <p class="text-right underline">(167,352)</p>
+                  <p class="font-bold text-accent border-t border-amber-300 pt-1">Net Income</p> <p class="text-right font-bold text-accent border-t border-amber-300 pt-1">&euro;390,488</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5: Comparison Table -->
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-3">📊 FIFO vs Average-Cost 비교 (Comparison)</p>
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-zinc-200">
+                      <th class="text-left py-1.5 text-zinc-500">항목 Item</th>
+                      <th class="text-right py-1.5 text-blue-600">FIFO</th>
+                      <th class="text-right py-1.5 text-amber-600">Average</th>
+                      <th class="text-right py-1.5 text-zinc-500">차이 Diff</th>
+                    </tr>
+                  </thead>
+                  <tbody class="font-mono">
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">Ending Inventory</td>
+                      <td class="text-right">&euro;9,700</td>
+                      <td class="text-right">&euro;8,540</td>
+                      <td class="text-right text-blue-600">+&euro;1,160</td>
+                    </tr>
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">COGS</td>
+                      <td class="text-right">&euro;33,000</td>
+                      <td class="text-right">&euro;34,160</td>
+                      <td class="text-right text-amber-600">−&euro;1,160</td>
+                    </tr>
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">Gross Profit</td>
+                      <td class="text-right">&euro;707,000</td>
+                      <td class="text-right">&euro;705,840</td>
+                      <td class="text-right text-blue-600">+&euro;1,160</td>
+                    </tr>
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">Income Tax (30%)</td>
+                      <td class="text-right">&euro;167,700</td>
+                      <td class="text-right">&euro;167,352</td>
+                      <td class="text-right text-blue-600">+&euro;348</td>
+                    </tr>
+                    <tr class="font-bold">
+                      <td class="py-1.5">Net Income</td>
+                      <td class="text-right text-blue-600">&euro;391,300</td>
+                      <td class="text-right text-amber-600">&euro;390,488</td>
+                      <td class="text-right text-blue-600">+&euro;812</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Management Questions -->
+            <div class="bg-violet-50 border border-violet-100 rounded-xl p-4">
+              <p class="text-sm font-bold text-violet-800 mb-3">💡 Management Questions (경영 관련 질문)</p>
+              <div class="space-y-3 text-xs text-zinc-700">
+
+                <div>
+                  <p class="font-bold text-zinc-800 mb-1">(a) Which method produces a more meaningful inventory valuation on B/S?<br><span class="text-zinc-400">어떤 방법이 재무상태표에서 더 의미 있는 재고 가치를 제공하는가?</span></p>
+                  <div class="bg-white border border-violet-200 rounded-lg p-2.5 mt-1">
+                    <p><strong class="text-blue-600">→ FIFO</strong>가 더 의미 있는 재고 가치를 제공합니다.</p>
+                    <p class="mt-1">이유: FIFO에서 기말재고는 <strong>가장 최근 매입 원가</strong>로 구성되므로, 현재 시장가치(current replacement cost)에 더 가깝습니다. FIFO ending inventory (&euro;9,700) uses the most recent purchase prices (&euro;25 and &euro;22), which better approximate the current market value of inventory.</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="font-bold text-zinc-800 mb-1">(b) Which method is closer to the actual physical flow?<br><span class="text-zinc-400">어떤 방법이 실제 물리적 재고 흐름에 더 가까운가?</span></p>
+                  <div class="bg-white border border-violet-200 rounded-lg p-2.5 mt-1">
+                    <p><strong class="text-blue-600">→ FIFO</strong>가 실제 물리적 흐름에 더 가깝습니다.</p>
+                    <p class="mt-1">의류(apparel) 산업에서는 먼저 입고된 상품을 먼저 판매하는 것이 일반적입니다 (시즌성, 유행 변화 때문). In the apparel industry, FIFO closely mirrors actual flow — older inventory is sold first to avoid obsolescence from fashion trends and seasonal changes.</p>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="font-bold text-zinc-800 mb-1">(c) Which method results in more cash available?<br><span class="text-zinc-400">어떤 방법이 더 많은 현금을 보유하게 하는가?</span></p>
+                  <div class="bg-white border border-violet-200 rounded-lg p-2.5 mt-1">
+                    <p><strong class="text-amber-600">→ Average-Cost</strong>가 더 많은 현금을 보유하게 합니다.</p>
+                    <p class="mt-1">인플레이션 환경에서 Average-Cost는 COGS가 더 높아 → 과세소득(taxable income)이 더 낮아 → 세금을 &euro;348 덜 냄 → 현금 보유가 그만큼 많아집니다. Under inflation, Average produces higher COGS (&euro;34,160 vs &euro;33,000), lower taxable income, and thus &euro;348 less in taxes, resulting in more cash retained.</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Key Insight Box -->
+            <div class="bg-gradient-to-r from-accent/5 to-violet-50 border border-accent/20 rounded-xl p-4">
+              <p class="text-xs font-bold text-accent mb-1.5">🎯 시험 포인트 (Exam Key Takeaway)</p>
+              <ul class="text-xs text-zinc-600 space-y-1">
+                <li>• 인플레이션 시: FIFO → 낮은 COGS → 높은 이익 → 높은 세금 → 적은 현금</li>
+                <li>• 인플레이션 시: Average → 높은 COGS → 낮은 이익 → 낮은 세금 → 많은 현금</li>
+                <li>• Under inflation: FIFO = higher NI, higher tax; Average = lower NI, lower tax, more cash</li>
+                <li>• FIFO Ending Inv. > Average Ending Inv. (closer to current market prices)</li>
+                <li>• 두 방법 모두 GAAP/IFRS에서 허용됨 (Both are acceptable under GAAP/IFRS)</li>
               </ul>
             </div>
+
           </div>
         </div>
-        <!-- CT5-1 -->
+
+        <hr class="border-zinc-100">
+
+        <!-- ===== CT5-1: TSMC ===== -->
         <div>
-          <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <h3 class="font-bold text-lg mb-1 flex items-center gap-2">
             <iconify-icon icon="solar:document-text-bold" class="text-accent"></iconify-icon>
             CT5-1: TSMC Financial Reporting
           </h3>
-          <p class="text-sm text-zinc-600 mb-3">TSMC의 consolidated income statement를 활용한 merchandising operations 분석<br><span class="text-zinc-400">Analyze merchandising operations using TSMC's consolidated income statement</span></p>
-          <div class="bg-zinc-50 rounded-xl p-4">
-            <p class="text-sm text-zinc-600">TSMC의 실제 재무제표를 바탕으로 매출원가 구조, 매출총이익률 등을 분석합니다. 반도체 제조업의 특성을 재무제표를 통해 이해하는 것이 핵심입니다.<br><span class="text-zinc-400">Analyze COGS structure and gross profit margin based on TSMC's actual financial statements. The key is understanding semiconductor manufacturing characteristics through financial statements.</span></p>
+          <p class="text-sm text-zinc-600 mb-4">TSMC의 consolidated income statement를 활용한 merchandising operations 분석<br><span class="text-zinc-400">Analyze TSMC's consolidated income statement for merchandising operations</span></p>
+
+          <div class="space-y-4">
+
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
+              <p class="text-sm font-bold text-blue-800 mb-2">📋 TSMC 기업 개요 (Company Overview)</p>
+              <ul class="text-xs text-zinc-700 space-y-1">
+                <li>• <strong>Taiwan Semiconductor Manufacturing Company</strong> — 세계 최대 반도체 파운드리</li>
+                <li>• 제조업(Manufacturing company) — Raw materials → WIP → Finished goods 3단계 재고</li>
+                <li>• 주요 고객: Apple, NVIDIA, AMD, Qualcomm 등 팹리스(fabless) 기업</li>
+                <li>• 반도체 산업 특성: 대규모 설비투자(CAPEX), 높은 감가상각비, 기술집약적</li>
+              </ul>
+            </div>
+
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-bold text-zinc-800 mb-2">(a) What is TSMC's gross profit rate? Is it increasing or decreasing?</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs space-y-1.5">
+                <p class="font-mono">Gross Profit Rate = Gross Profit / Net Revenue × 100</p>
+                <p class="mt-1">TSMC의 매출총이익률은 약 <strong class="text-accent">53-56%</strong> 수준으로, 반도체 산업에서 매우 높은 편입니다. 이는 TSMC의 기술적 우위(첨단 공정 독점)와 규모의 경제를 반영합니다.</p>
+                <p class="text-zinc-400 mt-1">TSMC's gross margin (~53-56%) is exceptionally high for manufacturing, reflecting its technological moat in advanced process nodes and economies of scale.</p>
+              </div>
+            </div>
+
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-bold text-zinc-800 mb-2">(b) What is TSMC's percentage of COGS to net revenue?</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs space-y-1.5">
+                <p class="font-mono">COGS % = Cost of Revenue / Net Revenue × 100 ≈ 44-47%</p>
+                <p class="mt-1">COGS에는 원재료(wafer), 감가상각비(대규모 fab 설비), 직접노동비, 제조간접비가 포함됩니다.</p>
+                <p class="text-zinc-400">COGS includes raw materials (wafers, chemicals), depreciation of fab equipment, direct labor, and manufacturing overhead.</p>
+              </div>
+            </div>
+
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-bold text-zinc-800 mb-2">(c) What is the operating profit margin? Key operating expenses?</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs space-y-1.5">
+                <p class="font-mono">Operating Margin = Operating Income / Net Revenue × 100 ≈ 42-46%</p>
+                <p class="mt-1">주요 영업비용: R&D expenses(연구개발비, ~8-9%), SG&A(판관비, ~2-3%)</p>
+                <p>반도체 파운드리는 R&D 투자가 핵심 경쟁력 → R&D가 SG&A보다 훨씬 큼</p>
+                <p class="text-zinc-400">Key OpEx: R&D (~8-9% of revenue) is the dominant operating cost, reflecting the critical role of technology advancement. SG&A is relatively small (~2-3%).</p>
+              </div>
+            </div>
+
+            <div class="bg-zinc-50 rounded-xl p-4">
+              <p class="text-sm font-bold text-zinc-800 mb-2">(d) What is TSMC's net income as a % of revenue (net profit margin)?</p>
+              <div class="bg-white border border-zinc-200 rounded-lg p-3 text-xs space-y-1.5">
+                <p class="font-mono">Net Profit Margin = Net Income / Net Revenue × 100 ≈ 38-42%</p>
+                <p class="mt-1">TSMC의 순이익률은 ~40%로 제조업 중 최고 수준입니다. 이는 독점적 기술 우위, 높은 가동률, 프리미엄 가격 책정 능력을 반영합니다.</p>
+                <p class="text-zinc-400">TSMC's ~40% net margin is among the highest in global manufacturing, reflecting its monopolistic position in advanced chip fabrication.</p>
+              </div>
+            </div>
+
+            <div class="key-answer rounded-xl p-4">
+              <p class="text-sm font-bold text-accent mb-2">📊 TSMC 수익성 요약 (Profitability Summary)</p>
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-zinc-200">
+                      <th class="text-left py-1.5 text-zinc-500">Metric</th>
+                      <th class="text-right py-1.5 text-zinc-500">Rate</th>
+                      <th class="text-left py-1.5 pl-3 text-zinc-500">의미 Significance</th>
+                    </tr>
+                  </thead>
+                  <tbody class="font-mono">
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">Gross Margin</td>
+                      <td class="text-right font-bold text-accent">~54%</td>
+                      <td class="pl-3 font-sans">높은 기술 장벽 반영</td>
+                    </tr>
+                    <tr class="border-b border-zinc-100">
+                      <td class="py-1.5">Operating Margin</td>
+                      <td class="text-right font-bold text-accent">~44%</td>
+                      <td class="pl-3 font-sans">효율적 비용 구조</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5">Net Profit Margin</td>
+                      <td class="text-right font-bold text-accent">~40%</td>
+                      <td class="pl-3 font-sans">제조업 중 최고 수준</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-accent/5 to-violet-50 border border-accent/20 rounded-xl p-4">
+              <p class="text-xs font-bold text-accent mb-1.5">🎯 시험 포인트 (Exam Key Takeaway)</p>
+              <ul class="text-xs text-zinc-600 space-y-1">
+                <li>• 제조업 vs 유통업: 제조업은 재고가 3단계(RM, WIP, FG), 유통업은 1단계</li>
+                <li>• Manufacturing has 3-stage inventory (RM → WIP → FG) vs Merchandising has 1</li>
+                <li>• TSMC 같은 반도체 fab: 대규모 CAPEX → 높은 감가상각비가 COGS에 포함</li>
+                <li>• 높은 Gross Margin = 기술적 해자(moat)가 강하다는 신호</li>
+                <li>• R&D 비중이 SG&A보다 높으면 → 기술집약적 산업의 특징</li>
+              </ul>
+            </div>
+
           </div>
         </div>
+
       </div>
       <div class="px-7 py-5 border-t border-zinc-100">
         <button onclick="closeModal('modal1')" class="w-full py-3 bg-zinc-100 text-zinc-600 rounded-xl font-semibold text-sm hover:bg-zinc-200 transition-smooth">닫기 Close</button>
